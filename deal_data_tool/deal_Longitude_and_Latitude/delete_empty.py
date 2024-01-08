@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# 删除空文件
+# 删除空行
 import os.path
 
 import pandas as pd

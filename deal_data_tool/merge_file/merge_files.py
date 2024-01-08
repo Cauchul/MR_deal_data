@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+# 合并多次测试结果
 import os
 import shutil
 
@@ -62,8 +62,10 @@ if __name__ == '__main__':
     for i_p in res_dir_list:
         sub_path = os.path.join(folder_path, i_p)
         out_put_path = os.path.join(sub_path, 'output')
+        # 获取需要合并的所有的文件list
         res_list = get_merge_file_list(out_put_path, '5G')
         file_list.extend(res_list)
     # print(file_list)
+    # 把list中的文件全部合并
     merge_all_data(file_list)
 

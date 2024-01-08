@@ -5,7 +5,7 @@ import configparser
 import math
 import os
 
-from Common import read_csv_get_df, data_conversion, df_write_to_csv, generate_images, Common, demo_data_conversion, \
+from Common import read_csv_get_df, df_write_to_csv, Common, demo_data_conversion, \
     Data_4G, Data_5G, UMER_Data_4G, UEMR_Data_5G, print_with_line_number, df_write_to_xlsx
 
 
