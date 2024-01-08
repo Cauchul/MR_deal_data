@@ -4,8 +4,7 @@ import os
 import glob
 import configparser
 
-from Common import get_path_sub_dir, set_WalkTour_config_save, set_WeTest_config_save, check_char_in_file_list, \
-    print_with_line_number
+from Common import get_path_sub_dir, set_WalkTour_config_save, set_WeTest_config_save
 
 
 def generate_WalkTour_config_file(in_file_list, in_config_out_path):
@@ -39,31 +38,19 @@ def get_all_csv_file(in_path):
 
 
 # 修改为你想要获取文件的目录
-folder_path = r'D:\working\data_conv\20240106\测试数据\5G\三星S22-836401'
+folder_path = r'D:\working\data_conv\20240106\测试数据\4G\IQOO7_6454'
 
 res_dir_list = get_path_sub_dir(folder_path)
 
-data_type = 'finger'
-
 for i_p in res_dir_list:
-    print('===' * 50)
     sub_path = os.path.join(folder_path, i_p)
-    print_with_line_number(f'当前处理路径：{sub_path}', __file__)
+    print(sub_path)
     res_file_list = get_all_csv_file(sub_path)
-    print_with_line_number(f'当前路径下获取到的所有csv文件：{res_file_list}', __file__)
+    print(res_file_list)
     if len(res_file_list) > 2:
-        print_with_line_number('WalkTour 室内数据', __file__)
-        set_WalkTour_config_save(res_file_list, sub_path, 'indoor', data_type)
-    elif 2 == len(res_file_list):
-        if check_char_in_file_list(res_file_list, 'char'):
-            print_with_line_number('WeTest 室内数据', __file__)
-            set_WeTest_config_save(res_file_list, sub_path, 'indoor', data_type)
-        else:
-            print_with_line_number('WalkTour outdoor数据', __file__)
-            set_WalkTour_config_save(res_file_list, sub_path, 'outdoor', data_type)
+        set_WalkTour_config_save(res_file_list, sub_path)
     else:
-        print_with_line_number('WeTest outdoor数据', __file__)
-        set_WeTest_config_save(res_file_list, sub_path, 'outdoor', data_type)
+        set_WeTest_config_save(res_file_list, sub_path)
 
 # 打印文件列表
 # print(get_all_csv_file(folder_path))

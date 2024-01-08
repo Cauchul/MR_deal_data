@@ -665,31 +665,21 @@ def set_WalkTour_config(in_file_list):
     config.save_config()
 
 
-def set_WalkTour_config_save(in_file_list, in_out_path, in_test_area, in_data_type='finger'):
-    section_name = 'WalkTour'
-    config.set_config_is_enabled(section_name, 'true')
-    config.set_config_test_area(section_name, in_test_area)
-    config.set_config_data_type(section_name, in_data_type)
-
-    print_with_line_number('生成WalkTour配置文件', __file__)
+def set_WalkTour_config_save(in_file_list, in_out_path):
+    print('---------生成WalkTour配置文件-----------')
     for i_f in in_file_list:
         if 'char' in i_f:
-            config.set_config_char(section_name, i_f)
+            config.set_config_char('WalkTour', i_f)
         elif 'table' in i_f:
-            config.set_config_table(section_name, i_f)
+            config.set_config_table('WalkTour', i_f)
         else:
-            config.set_config_ue_log(section_name, i_f)
+            config.set_config_ue_log('WalkTour', i_f)
 
     config.save_config_in_path(in_out_path)
 
 
-def set_WeTest_config_save(in_file_list, in_out_path, in_test_area, in_data_type='finger'):
-    section_name = 'WeTest'
-    config.set_config_is_enabled(section_name, 'true')
-    config.set_config_test_area(section_name, in_test_area)
-    config.set_config_data_type(section_name, in_data_type)
-
-    print_with_line_number('生成WeTest配置文件', __file__)
+def set_WeTest_config_save(in_file_list, in_out_path):
+    print('---------生成WeTest配置文件-----------')
     for i_f in in_file_list:
         if 'char' in i_f:
             config.set_config_char('WeTest', i_f)

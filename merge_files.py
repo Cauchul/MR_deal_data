@@ -55,7 +55,7 @@ def get_merge_file_list(in_path, in_char):
 
 
 if __name__ == '__main__':
-    folder_path = r'D:\working\data_conv\20240106\测试数据\5G\三星S22-836401'
+    folder_path = r'D:\working\data_conv\20240106\测试数据\4G\IQOO7_6454'
     res_dir_list = get_path_sub_dir(folder_path)
     file_list = []
 
@@ -63,7 +63,7 @@ if __name__ == '__main__':
         sub_path = os.path.join(folder_path, i_p)
         out_put_path = os.path.join(sub_path, 'output')
         # 获取需要合并的所有的文件list
-        res_list = get_merge_file_list(out_put_path, '5G')
+        res_list = get_merge_file_list(out_put_path, '4G')
         file_list.extend(res_list)
     # print(file_list)
     # 把list中的文件全部合并

@@ -9,7 +9,7 @@ from Common import clear_path, get_file_by_string, unzip, copy_file, read_csv_ge
 
 
 def unzip_zcy_zip_file(in_path):
-    in_extraction_path = os.path.join(in_path, '')
+    in_extraction_path = os.path.join(in_path, 'unzip')
     clear_path(in_extraction_path)
     # shutil.rmtree(in_extraction_path)  # 清理输出目录
     # 解压所有的zip
@@ -20,7 +20,7 @@ def unzip_zcy_zip_file(in_path):
 
 
 def copy_zcy_unzip_file(in_path):
-    in_unzip_path = os.path.join(in_path, '')
+    in_unzip_path = os.path.join(in_path, 'unzip')
     in_output_path = os.path.join(in_path, 'output')
     check_path(in_output_path)
     for root, dirs, files in os.walk(in_unzip_path):
@@ -34,7 +34,7 @@ def copy_zcy_unzip_file(in_path):
 
 
 def copy_char_file(in_path):
-    in_unzip_path = os.path.join(in_path, '')
+    in_unzip_path = os.path.join(in_path, 'unzip')
     # in_output_path = os.path.join(in_path, 'output')
     # check_path(in_output_path)
     for root, dirs, files in os.walk(in_unzip_path):
@@ -151,7 +151,7 @@ def unzip_copy(in_path):
 
 
 if __name__ == '__main__':
-    folder_path = r'D:\working\data_conv\20240106\测试数据\5G'
+    folder_path = r'D:\working\data_conv\20240106'
     res_list = get_all_data_path(folder_path)
     # print(res_list)
     for i_path in res_list:
