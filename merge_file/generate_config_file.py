@@ -5,8 +5,7 @@ import glob
 import configparser
 
 from Common import get_path_sub_dir, set_WalkTour_config_save, set_WeTest_config_save, check_char_in_file_list, \
-    print_with_line_number, set_WalkTour_config_indoor, set_WalkTour_config_outdoor, set_WeTest_config_outdoor, \
-    set_WeTest_config_indoor
+    print_with_line_number
 
 
 def generate_WalkTour_config_file(in_file_list, in_config_out_path):

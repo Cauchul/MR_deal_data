@@ -644,7 +644,9 @@ class DealConfig:
             self.config.write(configfile)
 
     def save_config_in_path(self, in_out_path):
-        with open(os.path.join(in_out_path, 'config.ini'), 'w', encoding='UTF-8') as configfile:
+        out_config_file = os.path.join(in_out_path, 'config.ini')
+        print_with_line_number(f'生成配置文件为：{out_config_file}', __file__)
+        with open(out_config_file, 'w', encoding='UTF-8') as configfile:
             self.config.write(configfile)
 
 
