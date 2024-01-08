@@ -854,7 +854,22 @@ class WalkTour:
         except PermissionError as e:
             print_with_line_number(f'写文件报错：{e}')
 
-        tmp_ue_table_df = WalkTour.get_merge_ue_table_data(in_ue_file, in_table_file)
+        # tmp_ue_table_df = WalkTour.get_merge_ue_table_data(in_ue_file, in_table_file)
+
+        in_ue_df = Common.read_csv_get_df(in_ue_file)
+        in_table_df = Common.read_csv_get_df(in_table_file)
+        try:
+            tmp_ue_table_df = pd.merge(in_ue_df, in_table_df, left_on="PC Time", right_on="PCTime", how='left')
+        except KeyError as e:
+            print_with_line_number(f'type: {type(e)}')
+            if 'PCTime' in str(e):
+                print_with_line_number(f'table数据中缺少，PCTime列，报错 KeyError：{e}')
+            elif 'PC Time' in str(e):
+                print_with_line_number(f'test log数据中缺少，PC Time列，报错 KeyError：{e}')
+            else:
+                print_with_line_number(f'报错 KeyError：{e}')
+            return
+
         # 合并所有数据
         res_merge_df = WalkTour.wifi_bluetooth_merge_ue_zcy_data(tmp_ue_table_df, tmp_merger_df)
         return res_merge_df
@@ -874,7 +889,21 @@ class WalkTour:
 
         print_with_line_number(f'读取ue文件：{ue_file}')
         print_with_line_number(f'读取table文件：{table_file}')
-        rea_ue_table_df = WalkTour.get_merge_ue_table_data(ue_file, table_file)
+        # rea_ue_table_df = WalkTour.get_merge_ue_table_data(ue_file, table_file)
+        in_ue_df = Common.read_csv_get_df(ue_file)
+        in_table_df = Common.read_csv_get_df(table_file)
+        try:
+            rea_ue_table_df = pd.merge(in_ue_df, in_table_df, left_on="PC Time", right_on="PCTime", how='left')
+        except KeyError as e:
+            print_with_line_number(f'type: {type(e)}')
+            if 'PCTime' in str(e):
+                print_with_line_number(f'table数据中缺少，PCTime列，报错 KeyError：{e}')
+            elif 'PC Time' in str(e):
+                print_with_line_number(f'test log数据中缺少，PC Time列，报错 KeyError：{e}')
+            else:
+                print_with_line_number(f'报错 KeyError：{e}')
+            return
+
         rea_ue_table_df['ts'] = Time.convert_datetime_to_seconds(rea_ue_table_df['PC Time'])
         return rea_ue_table_df
 
@@ -909,21 +938,43 @@ class WalkTour:
         # 获取时间戳前十位
         tmp_zcy_df['created_by_ue_time'] = Common.get_top_ten_data(tmp_zcy_df['created_by_ue_time'])
 
-        tmp_ue_table_df = WalkTour.get_merge_ue_table_data(in_ue_file, in_table_file)
+        # tmp_ue_table_df = WalkTour.get_merge_ue_table_data(in_ue_file, in_table_file)
+        in_ue_df = Common.read_csv_get_df(in_ue_file)
+        in_table_df = Common.read_csv_get_df(in_table_file)
+        try:
+            tmp_ue_table_df = pd.merge(in_ue_df, in_table_df, left_on="PC Time", right_on="PCTime", how='left')
+        except KeyError as e:
+            print_with_line_number(f'type: {type(e)}')
+            if 'PCTime' in str(e):
+                print_with_line_number(f'table数据中缺少，PCTime列，报错 KeyError：{e}')
+            elif 'PC Time' in str(e):
+                print_with_line_number(f'test log数据中缺少，PC Time列，报错 KeyError：{e}')
+            else:
+                print_with_line_number(f'报错 KeyError：{e}')
+            return
+
         res_zcy_ue_merge_df = WalkTour.merge_ue_zcy_data(tmp_ue_table_df, tmp_zcy_df)
         return res_zcy_ue_merge_df
 
     # 合并UE table数据
+    # @staticmethod
+    # def get_merge_ue_table_data(in_ue_file, in_table_file):
+    #     in_ue_df = Common.read_csv_get_df(in_ue_file)
+    #     if os.path.exists(in_table_file):
+    #         in_table_df = Common.read_csv_get_df(in_table_file)
+    #         res_tmp_merge_df = pd.merge(in_ue_df, in_table_df, left_on="PC Time", right_on="PCTime", how='left')
+    #         return res_tmp_merge_df
+    #     else:
+    #         print('WalkTour数据中缺少table数据，请把table数据csv文件路径配置到配置文件中')
+    #         return
+
     @staticmethod
     def get_merge_ue_table_data(in_ue_file, in_table_file):
         in_ue_df = Common.read_csv_get_df(in_ue_file)
-        if os.path.exists(in_table_file):
-            in_table_df = Common.read_csv_get_df(in_table_file)
-            res_tmp_merge_df = pd.merge(in_ue_df, in_table_df, left_on="PC Time", right_on="PCTime", how='left')
-            return res_tmp_merge_df
-        else:
-            print('WalkTour数据中缺少table数据，请把table数据csv文件路径配置到配置文件中')
-            return
+        in_table_df = Common.read_csv_get_df(in_table_file)
+        res_tmp_merge_df = pd.merge(in_ue_df, in_table_df, left_on="PC Time", right_on="PCTime", how='left')
+        return res_tmp_merge_df
+
 
     # 合并ue和zcy
     @staticmethod
