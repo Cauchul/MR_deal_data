@@ -1,21 +1,28 @@
 # -*- coding: utf-8 -*-
-import pandas as pd
+from ftplib import FTP
 
-from demo_deal_config.mr_deal_data import DealData
+# FTP服务器的连接信息
+host = '116.6.50.82'
+username = 'dingliftp'
+password = 'dingliftp2023-2024'
 
-uemr_file = r'D:\working\1214\1214国际财经中心(1)\bug_data\uemr_data\4g1219hive.csv'
-char_file = r'D:\working\1214\1214国际财经中心(1)\bug_data\uemr_data\国际财经中心_A座_2_5G_20231214采样点数据-chart.csv'
+# 本地文件路径
+local_file_path = r'D:\working\data_conv\Reno8.7z'
 
+# 远程目标目录
+remote_directory = '/var/www/html/walkingindoor_data/MR'
 
-uemr_df = pd.read_csv(uemr_file, low_memory=False)
-char_df = pd.read_csv(char_file, low_memory=False)
+# 创建FTP对象并连接到服务器
+ftp = FTP(host)
+ftp.login(username, password)
 
-# char_df = char_df[
-#     ['test_time', 'created_by_ue_time', 'x', 'y', 'longitude', 'latitude', 'direction', 'altitude']]
-#
-# uemr_df['f_direction'] = ''
-# print(char_df.columns)
-merge_df = pd.merge(uemr_df, char_df, left_on="f_time", right_on="created_by_ue_time",
-                                    how='left')
+# 进入远程目标目录
+ftp.cwd(remote_directory)
 
-print(merge_df)
+# 以二进制模式打开本地文件
+with open(local_file_path, 'rb') as file:
+    # 上传文件到远程服务器
+    ftp.storbinary(f'STOR Reno8.7z', file)
+
+# 关闭FTP连接
+ftp.quit()

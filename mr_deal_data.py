@@ -4,9 +4,12 @@ import inspect
 import math
 import os
 import re
+import socket
 import sys
 import time
+import zipfile
 from datetime import datetime
+from ftplib import FTP, error_perm
 
 import numpy as np
 import pandas as pd
@@ -246,6 +249,20 @@ class Config:
 
 
 class Time:
+    # 获取当前时间的字符串
+    @staticmethod
+    def get_now_time_str():
+        in_now = datetime.now()  # 获取当前时间
+        tmp_year = str(in_now.year)  # 获取当前年份
+        tmp_month = str(in_now.month)  # 获取当前月份
+        tmp_day = str(in_now.day)  # 获取当前日期
+        tmp_hour = str(in_now.hour)  # 获取当前小时
+        tmp_minute = str(in_now.minute)  # 获取当前分钟
+        tmp_second = str(in_now.second)  # 获取当前秒数
+
+        tmp_time_str = tmp_year + tmp_month + tmp_day + tmp_hour + tmp_minute + tmp_second
+        return tmp_time_str
+
     # 标准化时间
     @staticmethod
     def stand_time(in_df, in_column):
@@ -1182,6 +1199,26 @@ class OutDataTableFormat:
 
 
 class Common:
+    # 传入文件list,压缩文件
+    @staticmethod
+    def zip_file(in_file_list, in_zip_file):
+        tmp_zip_file = zipfile.ZipFile(in_zip_file, 'w')
+        for i_f in in_file_list:
+            tmp_zip_file.write(i_f, os.path.basename(i_f))
+        tmp_zip_file.close()
+
+    # 把路径切分成list
+    @staticmethod
+    def split_path_get_list(in_path):
+        tmp_path_parts = []
+        while True:
+            in_path, folder = os.path.split(in_path)
+            if folder:
+                tmp_path_parts.insert(0, folder)
+            else:
+                break
+        return tmp_path_parts
+
     # 获取某列第一个非空值的index
     @staticmethod
     def get_first_valid_value(in_df_column):
@@ -1471,6 +1508,40 @@ class Common:
         # return df_dta
 
 
+class FTPHelper:
+    def __init__(self, host='116.6.50.82', username='dingliftp', password='dingliftp2023-2024', port=21):
+        self.ftp = FTP()
+        self.host = host
+        self.username = username
+        self.password = password
+        self.port = port
+
+    def connect(self):
+        self.ftp.connect(self.host, self.port, timeout=5)
+        self.ftp.login(self.username, self.password)
+        # except error_perm as e:
+        #     print_error('error')
+        # # self.ftp.connect(self.host, self.port)
+
+    def reconnect(self):
+        self.ftp.close()
+        self.ftp.connect(self.host, self.port)
+        self.ftp.login(self.username, self.password)
+
+    # def _login(self):
+    #     self.ftp.login(self.username, self.password)
+
+    def ftp_upload(self, in_local_file, in_save_dir=r'/var/www/html/walkingindoor_data/MR'):
+        self.ftp.cwd(in_save_dir)
+        tmp_res_list = Common.split_path_get_list(in_local_file)
+        with open(in_local_file, 'rb') as file:
+            # 上传文件到远程服务器
+            self.ftp.storbinary(f'STOR {tmp_res_list[-1]}', file)
+
+        # # 关闭FTP连接
+        # self.ftp.quit()
+
+
 class DealData:
     def __init__(self, in_config):
         self.config = in_config
@@ -1645,10 +1716,37 @@ class DealData:
 
         try:
             Common.df_write_to_csv(res_wifi_bluetooth_df, out_file + f'_{data_type}.csv')
+
+            zip_file_list = [self.config.get_char_file(), self.config.get_wifi_bluetooth_file()]
+            # 压缩文件上传ftp
+            zip_file_name = out_file + f'_{data_type}_{Time.get_now_time_str()}.zip'
+            # print_with_line_number(f'压缩文件名为：{zip_file_name}')
+            # print_with_line_number(f'压缩文件列表为：{zip_file_list}')
+            Common.zip_file(zip_file_list, zip_file_name)
+            # 上传文件到ftp
+            try:
+                ftp.ftp_upload(zip_file_name)
+            except TimeoutError as e:
+                # print_error('error')
+                try:
+                    ftp.reconnect()
+                except Exception:
+                    print_error('error 1')
+                # except error_perm:
+                #     print_error('error 1')
+                # except socket.gaierror:
+                #     print_error('error 1')
+                # except TimeoutError:
+                #     print_error('error 1')
+
+            # 删除压缩文件
+            if Common.check_file_exists(zip_file_name):
+                os.remove(zip_file_name)
         except PermissionError as e:
             print_with_line_number(f'写文件报错：{e}')
 
     def deal_walk_tour(self):
+        # zip_file_list = []
         # 处理walktour数据
         print_with_line_number('----开始处理walk_tour数据-----')
 
@@ -1669,6 +1767,9 @@ class DealData:
         print_with_line_number('----step 1:获取原始df数据----')
         # 获取室内室外的数据
         if 'indoor'.lower() == self.config.get_test_area().lower():
+            # 压缩文件list
+            zip_file_list = [self.config.get_ue_file(), self.config.get_table_file(), self.config.get_char_file()]
+
             n_scene = 'indoor'
             print_with_line_number(f'获取 indoor 数据')
             zcy_ue_merge_df = WalkTour.indoor_get_df_zcy(self.config, self.deal_zcy_char_csv_file)
@@ -1678,6 +1779,8 @@ class DealData:
                     'wifi_bluetooth数据的created_by_ue_time时间戳和test_log数据的PC Time时间戳关联不上，合并之后为空')
                 return
         elif 'outdoor'.lower() == self.config.get_test_area().lower():
+            zip_file_list = [self.config.get_ue_file(), self.config.get_table_file()]
+
             n_scene = 'outdoor'
             print_with_line_number(f'获取 outdoor 数据')
             zcy_ue_merge_df = WalkTour.outdoor_get_df(self.config)
@@ -1727,10 +1830,37 @@ class DealData:
         print_with_line_number(f'输出结果文件为：{out_file}' + f'_{data_type}.csv')
         try:
             Common.df_write_to_csv(zcy_ue_merge_df, out_file + f'_{data_type}.csv')
+
+            # 压缩文件上传ftp
+            zip_file_name = out_file + f'_{data_type}_{Time.get_now_time_str()}.zip'
+            # print_with_line_number(f'压缩文件名为：{zip_file_name}')
+            # print_with_line_number(f'压缩文件列表为：{zip_file_list}')
+            Common.zip_file(zip_file_list, zip_file_name)
+            # 上传文件到ftp
+            try:
+                ftp.ftp_upload(zip_file_name)
+            except TimeoutError as e:
+                # print_error('error')
+                try:
+                    ftp.reconnect()
+                except Exception:
+                    print_error('error 1')
+                # except error_perm:
+                #     print_error('error 1')
+                # except socket.gaierror:
+                #     print_error('error 1')
+                # except TimeoutError:
+                #     print_error('error 1')
+
+            # 删除压缩文件
+            if Common.check_file_exists(zip_file_name):
+                os.remove(zip_file_name)
         except PermissionError as e:
             print_with_line_number(f'写文件报错：{e}')
 
     def deal_wetest(self):
+        # zip_file_list = []
+
         print_with_line_number('----开始处理wetest数据----')
         # 判断生成数据类型
         data_type = 'finger'
@@ -1749,6 +1879,9 @@ class DealData:
         # 获取室内数据或者室外数据
         print_with_line_number('----step 1:获取原始df数据----')
         if 'indoor'.lower() == self.config.get_test_area().lower():
+            # 压缩文件list
+            zip_file_list = [self.config.get_ue_file(), self.config.get_char_file()]
+
             # print('室内')
             n_scene = 'indoor'
             print_with_line_number(f'获取 indoor 数据')
@@ -1760,6 +1893,8 @@ class DealData:
                 return
 
         elif 'outdoor'.lower() == self.config.get_test_area().lower():
+            zip_file_list = [self.config.get_ue_file()]
+
             n_scene = 'outdoor'
             print_with_line_number(f'获取 outdoor 数据')
             res_ue_df = WeTest.outdoor_get_df(self.config)
@@ -1806,6 +1941,29 @@ class DealData:
         print_with_line_number(f'输出结果文件为：{out_file}' + f'_{data_type}.csv')
         try:
             Common.df_write_to_csv(res_ue_df, out_file + f'_{data_type}.csv')
+
+            # 压缩文件上传ftp
+            zip_file_name = out_file + f'_{data_type}_{Time.get_now_time_str()}.zip'
+            # print_with_line_number(f'压缩文件名为：{zip_file_name}')
+            # print_with_line_number(f'压缩文件列表为：{zip_file_list}')
+            Common.zip_file(zip_file_list, zip_file_name)
+            # 上传文件到ftp
+            try:
+                ftp.ftp_upload(zip_file_name)
+            except Exception as e:
+                # print_error('error')
+                try:
+                    ftp.reconnect()
+                except Exception:
+                    print_error('error 1')
+                # except socket.gaierror:
+                #     print_error('error 1')
+                # except TimeoutError:
+                #     print_error('error 1')
+
+            # 删除压缩文件
+            if Common.check_file_exists(zip_file_name):
+                os.remove(zip_file_name)
         except PermissionError as e:
             print_with_line_number(f'写文件报错：{e}')
 
@@ -1951,6 +2109,28 @@ class DealData:
         print_with_line_number(f'输出结果文件为：{out_file}' + f'_{data_type}.csv')
         try:
             Common.df_write_to_csv(zcy_ue_merge_df, out_file + f'_{data_type}.csv')
+
+            zip_file_list = [self.config.get_ue_file(), self.config.get_table_file(), self.config.get_char_file(),
+                             self.config.get_wifi_bluetooth_file()]
+            # 压缩文件上传ftp
+            zip_file_name = out_file + f'_{data_type}_{Time.get_now_time_str()}.zip'
+            # print_with_line_number(f'压缩文件名为：{zip_file_name}')
+            # print_with_line_number(f'压缩文件列表为：{zip_file_list}')
+            Common.zip_file(zip_file_list, zip_file_name)
+            # 上传文件到ftp
+            try:
+                ftp.ftp_upload(zip_file_name)
+            except TimeoutError:
+                # print_error('error')
+                try:
+                    ftp.reconnect()
+                except Exception:
+                    print_error('error 1')
+            # except error_perm:
+            #     print_error('error 1')
+            # 删除压缩文件
+            if Common.check_file_exists(zip_file_name):
+                os.remove(zip_file_name)
         except PermissionError as e:
             print_with_line_number(f'写文件报错：{e}')
 
@@ -1967,6 +2147,18 @@ def print_error(message):
     # 使用 f-string 格式化字符串，包含文件名和行号信息
     input(f"{os.path.basename(__file__)}:{current_line} - {message}")
 
+
+ftp = FTPHelper()
+try:
+    ftp.connect()
+except Exception:
+    print_error('error 0')
+# except error_perm as e:
+#     print_error('error 0')
+# except socket.gaierror as e:
+#     print_error('error 0')
+# except TimeoutError:
+#     print_error('error 0')
 
 if __name__ == '__main__':
     circulate_flag = False
