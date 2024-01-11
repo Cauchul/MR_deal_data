@@ -449,14 +449,6 @@ class WeTest:
                 'altitude': 'f_altitude',
                 'direction': 'f_direction',
             })
-
-        if 'f_longitude' not in log_df_5g.columns:
-            log_df_5g = log_df_5g.rename(
-                columns={
-                    'Longitude': 'f_longitude',
-                    'Latitude': 'f_latitude',
-                })
-
         # 删除重复列
         log_df_5g = Common.delete_duplicate_columns(log_df_5g)
 
@@ -526,14 +518,6 @@ class WeTest:
                 'altitude': 'f_altitude',
                 'direction': 'f_direction',
             })
-
-        if 'f_longitude' not in log_df_4g.columns:
-            log_df_4g = log_df_4g.rename(
-                columns={
-                    'Longitude': 'f_longitude',
-                    'Latitude': 'f_latitude',
-                })
-
         # 删除重复列
         log_df_4g = Common.delete_duplicate_columns(log_df_4g)
 
@@ -1056,13 +1040,6 @@ class WalkTour:
                 'direction': 'f_direction',
             })
 
-        if 'f_longitude' not in log_df_5g.columns:
-            log_df_5g = log_df_5g.rename(
-                columns={
-                    'Longitude': 'f_longitude',
-                    'Latitude': 'f_latitude',
-                })
-
         # 删除重复行
         log_df_5g = Common.delete_duplicate_columns(log_df_5g)
 
@@ -1133,13 +1110,6 @@ class WalkTour:
                 'altitude': 'f_altitude',
                 'direction': 'f_direction',
             })
-
-        if 'f_longitude' not in log_df_4g.columns:
-            log_df_4g = log_df_4g.rename(
-                columns={
-                    'Longitude': 'f_longitude',
-                    'Latitude': 'f_latitude',
-                })
 
         # 重命名ue数据
         log_df_4g = log_df_4g.rename(
@@ -1794,21 +1764,48 @@ class DealData:
 
         try:
             Common.df_write_to_csv(res_wifi_bluetooth_df, out_file + f'_{data_type}.csv')
+
+            zip_file_list = [self.config.get_char_file(), self.config.get_wifi_bluetooth_file()]
+            # 压缩文件上传ftp
+            zip_file_name = out_file + f'_{data_type}_{Time.get_now_time_str()}.zip'
+            # print_with_line_number(f'压缩文件名为：{zip_file_name}')
+            # print_with_line_number(f'压缩文件列表为：{zip_file_list}')
+            Common.zip_file(zip_file_list, zip_file_name)
+            # 上传文件到ftp
+            try:
+                ftp.ftp_upload(zip_file_name)
+            except TimeoutError:
+                # print_error('error')
+                try:
+                    ftp.reconnect()
+                except Exception:
+                    print_error('error 1')
+                # except error_perm:
+                #     print_error('error 1')
+                # except socket.gaierror:
+                #     print_error('error 1')
+                # except TimeoutError:
+                #     print_error('error 1')
+
+            # 删除压缩文件
+            if Common.check_file_exists(zip_file_name):
+                os.remove(zip_file_name)
         except PermissionError as e:
             print_with_line_number(f'写文件报错：{e}')
 
     def deal_walk_tour(self):
+        # zip_file_list = []
         # 处理walktour数据
         print_with_line_number('----开始处理walk_tour数据-----')
 
-        # # 判断生成数据类型
-        # data_type = 'finger'
-        # if 'uemr'.lower() == self.config.get_data_type().lower():
-        #     data_type = 'uemr'
-        # elif 'finger'.lower() != self.config.get_data_type().lower():
-        #     print_with_line_number(
-        #         f'config.ini文件中，data_type字段填写错误,实际值：{self.config.get_data_type()}，期望值：uemr或者finger')
-        #     return
+        # 判断生成数据类型
+        data_type = 'finger'
+        if 'uemr'.lower() == self.config.get_data_type().lower():
+            data_type = 'uemr'
+        elif 'finger'.lower() != self.config.get_data_type().lower():
+            print_with_line_number(
+                f'config.ini文件中，data_type字段填写错误,实际值：{self.config.get_data_type()}，期望值：uemr或者finger')
+            return
 
         # 创建输出目录
         cur_path_output = os.path.join(os.path.dirname(self.config.get_ue_file()), 'output')
@@ -1818,6 +1815,9 @@ class DealData:
         print_with_line_number('----step 1:获取原始df数据----')
         # 获取室内室外的数据
         if 'indoor'.lower() == self.config.get_test_area().lower():
+            # 压缩文件list
+            zip_file_list = [self.config.get_ue_file(), self.config.get_table_file(), self.config.get_char_file()]
+
             n_scene = 'indoor'
             print_with_line_number(f'获取 indoor 数据')
             zcy_ue_merge_df = WalkTour.indoor_get_df_zcy(self.config, self.deal_zcy_char_csv_file)
@@ -1827,6 +1827,8 @@ class DealData:
                     'wifi_bluetooth数据的created_by_ue_time时间戳和test_log数据的PC Time时间戳关联不上，合并之后为空')
                 return
         elif 'outdoor'.lower() == self.config.get_test_area().lower():
+            zip_file_list = [self.config.get_ue_file(), self.config.get_table_file()]
+
             n_scene = 'outdoor'
             print_with_line_number(f'获取 outdoor 数据')
             zcy_ue_merge_df = WalkTour.outdoor_get_df(self.config)
@@ -1836,12 +1838,12 @@ class DealData:
             return
 
         # 保存一份处理之前的数据(添加接口)
-        # cur_path_out_file = os.path.join(cur_path_output, f'WT_{n_scene}_{data_type}_原始文件.csv')
-        # print_with_line_number(f'生成原始df数据文件：{cur_path_out_file}')
-        # try:
-        #     Common.df_write_to_csv(zcy_ue_merge_df, cur_path_out_file)
-        # except PermissionError as e:
-        #     print_with_line_number(f'写文件报错：{e}')
+        cur_path_out_file = os.path.join(cur_path_output, f'WT_{n_scene}_{data_type}_原始文件.csv')
+        print_with_line_number(f'生成原始df数据文件：{cur_path_out_file}')
+        try:
+            Common.df_write_to_csv(zcy_ue_merge_df, cur_path_out_file)
+        except PermissionError as e:
+            print_with_line_number(f'写文件报错：{e}')
 
         # 设置场景信息
         print_with_line_number('----step 2:设置场景信息----')
@@ -1850,9 +1852,10 @@ class DealData:
         # 处理数据
         net_type = zcy_ue_merge_df['Network Type'][0]
         print_with_line_number(f'当前数据网络类型为：{net_type}')
-
+        # print('net_type: ', net_type)
         print_with_line_number('----step 3:处理df数据----')
         if 'LTE' == net_type:
+            # print('室内 4G')
             net_type = '4G'
             zcy_ue_merge_df = WalkTour.deal_4g_df_data(zcy_ue_merge_df)
         elif 'NR' == net_type or 'ENDC' == net_type:
@@ -1875,19 +1878,46 @@ class DealData:
         print_with_line_number(f'输出结果文件为：{out_file}' + f'_{data_type}.csv')
         try:
             Common.df_write_to_csv(zcy_ue_merge_df, out_file + f'_{data_type}.csv')
+
+            # 压缩文件上传ftp
+            zip_file_name = out_file + f'_{data_type}_{Time.get_now_time_str()}.zip'
+            # print_with_line_number(f'压缩文件名为：{zip_file_name}')
+            # print_with_line_number(f'压缩文件列表为：{zip_file_list}')
+            Common.zip_file(zip_file_list, zip_file_name)
+            # 上传文件到ftp
+            try:
+                ftp.ftp_upload(zip_file_name)
+            except TimeoutError:
+                # print_error('error')
+                try:
+                    ftp.reconnect()
+                except Exception:
+                    print_error('error 1')
+                # except error_perm:
+                #     print_error('error 1')
+                # except socket.gaierror:
+                #     print_error('error 1')
+                # except TimeoutError:
+                #     print_error('error 1')
+
+            # 删除压缩文件
+            if Common.check_file_exists(zip_file_name):
+                os.remove(zip_file_name)
         except PermissionError as e:
             print_with_line_number(f'写文件报错：{e}')
 
     def deal_wetest(self):
+        # zip_file_list = []
+
         print_with_line_number('----开始处理wetest数据----')
         # 判断生成数据类型
-        # data_type = 'finger'
-        # if 'uemr'.lower() == self.config.get_data_type().lower():
-        #     data_type = 'uemr'
-        # elif 'finger'.lower() != self.config.get_data_type().lower():
-        #     print_with_line_number(
-        #         f'config.ini文件中，data_type字段填写错误,实际值：{self.config.get_data_type()}，期望值：uemr或者finger')
-        #     return
+        data_type = 'finger'
+        if 'uemr'.lower() == self.config.get_data_type().lower():
+            data_type = 'uemr'
+        elif 'finger'.lower() != self.config.get_data_type().lower():
+            print_with_line_number(
+                f'config.ini文件中，data_type字段填写错误,实际值：{self.config.get_data_type()}，期望值：uemr或者finger')
+            return
 
         # 生成输出目录
         cur_path_output = os.path.join(os.path.dirname(self.config.get_ue_file()), 'output')
@@ -1897,6 +1927,10 @@ class DealData:
         # 获取室内数据或者室外数据
         print_with_line_number('----step 1:获取原始df数据----')
         if 'indoor'.lower() == self.config.get_test_area().lower():
+            # 压缩文件list
+            zip_file_list = [self.config.get_ue_file(), self.config.get_char_file()]
+
+            # print('室内')
             n_scene = 'indoor'
             print_with_line_number(f'获取 indoor 数据')
             res_ue_df = WeTest.indoor_get_df(self.config, self.deal_zcy_char_csv_file)
@@ -1907,6 +1941,8 @@ class DealData:
                 return
 
         elif 'outdoor'.lower() == self.config.get_test_area().lower():
+            zip_file_list = [self.config.get_ue_file()]
+
             n_scene = 'outdoor'
             print_with_line_number(f'获取 outdoor 数据')
             res_ue_df = WeTest.outdoor_get_df(self.config)
@@ -1916,12 +1952,12 @@ class DealData:
             return
 
         # 保存未处理之前的原始数据
-        # cur_path_out_file = os.path.join(cur_path_output, f'WeTest_{n_scene}_{data_type}_原始文件.csv')
-        # print_with_line_number(f'生成原始df数据文件：{cur_path_out_file}')
-        # try:
-        #     Common.df_write_to_csv(res_ue_df, cur_path_out_file)
-        # except PermissionError as e:
-        #     print_with_line_number(f'写文件报错：{e}')
+        cur_path_out_file = os.path.join(cur_path_output, f'WeTest_{n_scene}_{data_type}_原始文件.csv')
+        print_with_line_number(f'生成原始df数据文件：{cur_path_out_file}')
+        try:
+            Common.df_write_to_csv(res_ue_df, cur_path_out_file)
+        except PermissionError as e:
+            print_with_line_number(f'写文件报错：{e}')
 
         # 设置场景信息
         print_with_line_number('----step 2:设置场景信息----')
@@ -1937,30 +1973,45 @@ class DealData:
             net_type = '5G'
             res_ue_df = WeTest.deal_wetest_5g(res_ue_df)
 
+        # Common.df_write_to_csv(res_ue_df, r'D:\working\1214\1214国际财经中心(1)\demo_data\222ddd.csv')
         # 生成输出文件名称
         print_with_line_number('----step 4:输出df数据为csv文件----')
         out_file = Common.generate_output_file_name(cur_path_output, res_ue_df, net_type, n_scene, 'WeTest')
 
-        data_type = 'finger'
-        if 'uemr'.lower() == self.config.get_data_type().lower():
-            data_type = 'uemr'
+        if 'uemr'.lower() == data_type:
             res_ue_df.rename(columns=lambda x: x.replace('f_', 'u_'), inplace=True)
             res_ue_df = res_ue_df.rename(
                 columns={
                     'finger_id': 'uemr_id',
                 })
 
-        # if 'uemr'.lower() == self.config.get_data_type().lower():
-        #     res_ue_df.rename(columns=lambda x: x.replace('f_', 'u_'), inplace=True)
-        #     res_ue_df = res_ue_df.rename(
-        #         columns={
-        #             'finger_id': 'uemr_id',
-        #         })
-
         print_with_line_number(f'当前处理数据为：WeTest {net_type} {n_scene} {data_type} 数据')
         print_with_line_number(f'输出结果文件为：{out_file}' + f'_{data_type}.csv')
         try:
             Common.df_write_to_csv(res_ue_df, out_file + f'_{data_type}.csv')
+
+            # 压缩文件上传ftp
+            zip_file_name = out_file + f'_{data_type}_{Time.get_now_time_str()}.zip'
+            # print_with_line_number(f'压缩文件名为：{zip_file_name}')
+            # print_with_line_number(f'压缩文件列表为：{zip_file_list}')
+            Common.zip_file(zip_file_list, zip_file_name)
+            # 上传文件到ftp
+            try:
+                ftp.ftp_upload(zip_file_name)
+            except Exception:
+                # print_error('error')
+                try:
+                    ftp.reconnect()
+                except Exception:
+                    print_error('error 1')
+                # except socket.gaierror:
+                #     print_error('error 1')
+                # except TimeoutError:
+                #     print_error('error 1')
+
+            # 删除压缩文件
+            if Common.check_file_exists(zip_file_name):
+                os.remove(zip_file_name)
         except PermissionError as e:
             print_with_line_number(f'写文件报错：{e}')
 
@@ -2106,6 +2157,28 @@ class DealData:
         print_with_line_number(f'输出结果文件为：{out_file}' + f'_{data_type}.csv')
         try:
             Common.df_write_to_csv(zcy_ue_merge_df, out_file + f'_{data_type}.csv')
+
+            zip_file_list = [self.config.get_ue_file(), self.config.get_table_file(), self.config.get_char_file(),
+                             self.config.get_wifi_bluetooth_file()]
+            # 压缩文件上传ftp
+            zip_file_name = out_file + f'_{data_type}_{Time.get_now_time_str()}.zip'
+            # print_with_line_number(f'压缩文件名为：{zip_file_name}')
+            # print_with_line_number(f'压缩文件列表为：{zip_file_list}')
+            Common.zip_file(zip_file_list, zip_file_name)
+            # 上传文件到ftp
+            try:
+                ftp.ftp_upload(zip_file_name)
+            except TimeoutError:
+                # print_error('error')
+                try:
+                    ftp.reconnect()
+                except Exception:
+                    print_error('error 1')
+            # except error_perm:
+            #     print_error('error 1')
+            # 删除压缩文件
+            if Common.check_file_exists(zip_file_name):
+                os.remove(zip_file_name)
         except PermissionError as e:
             print_with_line_number(f'写文件报错：{e}')
 
@@ -2122,6 +2195,18 @@ def print_error(message):
     # 使用 f-string 格式化字符串，包含文件名和行号信息
     input(f"{os.path.basename(__file__)}:{current_line} - {message}")
 
+
+ftp = FTPHelper()
+try:
+    ftp.connect()
+except Exception:
+    print_error('error 0')
+# except error_perm as e:
+#     print_error('error 0')
+# except socket.gaierror as e:
+#     print_error('error 0')
+# except TimeoutError:
+#     print_error('error 0')
 
 if __name__ == '__main__':
     circulate_flag = False
