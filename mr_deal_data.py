@@ -4,13 +4,11 @@ import inspect
 import math
 import os
 import re
-import socket
 import sys
 import time
 import zipfile
 from datetime import datetime
-from ftplib import FTP, error_perm
-
+from ftplib import FTP
 import numpy as np
 import pandas as pd
 import pytz
@@ -975,7 +973,6 @@ class WalkTour:
         res_tmp_merge_df = pd.merge(in_ue_df, in_table_df, left_on="PC Time", right_on="PCTime", how='left')
         return res_tmp_merge_df
 
-
     # 合并ue和zcy
     @staticmethod
     def wifi_bluetooth_merge_ue_zcy_data(in_ue_df, in_zcy_df):
@@ -1552,11 +1549,11 @@ class Common:
     def df_write_to_csv(w_df, w_file):
         w_df.to_csv(w_file, index=False)
 
-    @staticmethod
-    def delete_df_duplicate_data_by_second(df_dta, g_df):
-        print_with_line_number('当前关闭，同秒取第一条数据功能')
-        # df_dta = df_dta.groupby(g_df).first().reset_index()  # 删除测试log中 秒级重复数据，同秒取第一条。
-        # return df_dta
+    # @staticmethod
+    # def delete_df_duplicate_data_by_second(df_dta, g_df):
+    #     print_with_line_number('当前关闭，同秒取第一条数据功能')
+    # df_dta = df_dta.groupby(g_df).first().reset_index()  # 删除测试log中 秒级重复数据，同秒取第一条。
+    # return df_dta
 
 
 class FTPHelper:
@@ -1777,7 +1774,7 @@ class DealData:
             # 上传文件到ftp
             try:
                 ftp.ftp_upload(zip_file_name)
-            except TimeoutError as e:
+            except TimeoutError:
                 # print_error('error')
                 try:
                     ftp.reconnect()
@@ -1890,7 +1887,7 @@ class DealData:
             # 上传文件到ftp
             try:
                 ftp.ftp_upload(zip_file_name)
-            except TimeoutError as e:
+            except TimeoutError:
                 # print_error('error')
                 try:
                     ftp.reconnect()
@@ -2001,7 +1998,7 @@ class DealData:
             # 上传文件到ftp
             try:
                 ftp.ftp_upload(zip_file_name)
-            except Exception as e:
+            except Exception:
                 # print_error('error')
                 try:
                     ftp.reconnect()
