@@ -279,8 +279,8 @@ def get_file_by_str(in_str, in_dir):
     return
 
 
-def copy_file(in_src_f, in_targ_f):
-    shutil.copy2(in_src_f, in_targ_f)
+def copy_file(in_src_f, in_des_path):
+    shutil.copy2(in_src_f, in_des_path)
 
 
 def move_file(in_src_f, in_targ_f):
@@ -365,6 +365,19 @@ def find_nth_occurrence(text, target, n):
 def get_split_str(in_str):
     res_list = re.findall(r'[a-zA-Z]+|\d+', in_str)
     return res_list
+
+
+# 找到目录下所有的output目录
+def find_output_dir(in_path):
+    output_directories = []
+
+    # 遍历根目录及其子目录
+    for in_res_folder_name, in_res_sub_folder, in_res_file_name in os.walk(in_path):
+        # 检查当前目录是否包含 "output"
+        if "output" in in_res_sub_folder:
+            output_directories.append(os.path.join(in_res_folder_name, "output"))
+
+    return output_directories
 
 
 # 获取当前目录下的所有子目录

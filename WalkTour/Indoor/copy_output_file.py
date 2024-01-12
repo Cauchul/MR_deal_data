@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# 拷贝文件
 import os
 import shutil
 
@@ -60,4 +61,4 @@ def copy_files_to_pre_dir(in_folder_path):
 file_char = '5G'
 print_with_line_number(f'当前拷贝的数据为：{file_char}', __file__)
 # 拷贝文件
-copy_output_files(r'D:\working\data_conv\20240111(1)\20240111\5G\2', file_char)
+copy_output_files(r'D:\working\data_conv\室外\mate40', file_char)
