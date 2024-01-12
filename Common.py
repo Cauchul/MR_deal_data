@@ -206,20 +206,6 @@ def get_zcy_data(in_zcy_file):
     return tmp_zcy_df
 
 
-# # 获取zcy数据
-# def get_zcy_data(in_zcy_file):
-#     in_zcy_df = read_csv_get_df(in_zcy_file)
-#     # if 'direction' in in_zcy_df.columns:
-#     #     tmp_zcy_df = in_zcy_df[
-#     #         ['test_time', 'created_by_ue_time', 'f_x', 'f_y', 'f_longitude', 'f_latitude', 'direction', 'altitude']]
-#     # else:
-#     # in_zcy_df['direction'] = 'zcy file no direction data'
-#     tmp_zcy_df = in_zcy_df[
-#         ['test_time', 'created_by_ue_time', 'f_x', 'f_y', 'f_longitude', 'f_latitude', 'direction', 'altitude']]
-#
-#     return tmp_zcy_df
-
-
 # 获取wifi数据
 def get_wifi_bluetooth_data(in_wifi_bluetooth_file):
     in_wifi_df = read_csv_get_df(in_wifi_bluetooth_file)
@@ -236,29 +222,6 @@ def get_zcy_merge_wifi_bluetooth_data(in_zcy_file, in_wifi_bluetooth_file):
     tmp_merger_df = pd.merge(tmp_wifi_bluetooth_df, tmp_zcy_df, left_on="f_time", right_on="created_by_ue_time",
                              how='left')
     return tmp_merger_df
-
-
-# # 合并UE table数据
-# def deal_ue_table_df(in_ue_file, in_table_file):
-#     in_ue_df = read_csv_get_df(in_ue_file)
-#     if os.path.exists(in_table_file):
-#         in_table_df = read_csv_get_df(in_table_file)
-#         res_tmp_merge_df = pd.merge(in_ue_df, in_table_df, left_on="PC Time", right_on="PCTime", how='left')
-#         return res_tmp_merge_df
-#     else:
-#         return in_ue_df
-
-
-# # 合并ue和zcy
-# def merge_ue_zcy_df(in_ue_df, in_zcy_df):
-#     in_ue_df['ts'] = DataPreprocessing.convert_datetime_to_timestamp(in_ue_df['PC Time'])
-#     if not in_zcy_df.empty:
-#         in_zcy_df['ts'] = DataPreprocessing.convert_datetime_to_timestamp(in_zcy_df['test_time'])
-#         tmp_df = pd.merge(in_ue_df, in_zcy_df)
-#         return tmp_df
-#     else:
-#         return in_ue_df
-
 
 # 根据特征获取文件字典
 def get_file_dict(in_path, in_file_list):
