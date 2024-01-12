@@ -4,7 +4,7 @@ import os
 
 from Common import get_all_data_path, config, print_with_line_number, get_all_csv_file
 
-folder_path = r'D:\working\data_conv\20240111(1)\20240111'
+# folder_path = r'D:\working\data_conv\20240111(1)\20240111'
 
 
 # 室外数据，获取csv所在的目录，list做自动化处理
@@ -52,6 +52,7 @@ def generate_WalkTour_config_file(in_file_list, in_config_out_path, in_data_type
         in_config.write(f)
 
 
+folder_path = r'E:\work\MR_Data\下午测试'
 # 获取csv文件的路径
 res_csv_path_list = outdoor_get_csv_file_dir_list(folder_path)
 

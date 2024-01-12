@@ -2,8 +2,8 @@
 import os.path
 
 import pandas as pd
-
-src_data = r'D:\working\data_conv\20240111(1)\20240111\5G\2'
+# 处理当前路径下的文件
+src_data = r'E:\work\MR_Data\1月12号\下午测试'
 
 csv_files = [file for file in os.listdir(src_data) if file.endswith('.csv')]
 
