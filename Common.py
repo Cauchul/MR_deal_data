@@ -70,6 +70,13 @@ def check_char_in_file_list(in_file_list, in_char):
         return False
 
 
+# 获取含有指定的字符的csv文件list
+def get_file_list_by_char(in_path, in_char):
+    tmp_csv_files = [os.path.join(in_path, file) for file in os.listdir(in_path) if
+                     file.endswith('.csv') and in_char in file]
+    return tmp_csv_files
+
+
 # 删除目录
 def clear_path(in_path):
     if os.path.exists(in_path):
@@ -89,6 +96,13 @@ def get_file_by_string(in_str, in_dir):
             in_file_path = os.path.join(in_dir, file)  # 获取包含指定字符串的文件的完整路径
             return in_file_path
     return
+
+
+# 获取当前目录下所有的csv文件
+def get_all_csv_file(in_path):
+    # 使用 glob 获取文件列表
+    tmp_file_list = glob.glob(os.path.join(in_path, "*.csv"))
+    return tmp_file_list
 
 
 # 获取整个目录下zip文件存在的所有的子目录路径，也即数据路径
@@ -255,13 +269,6 @@ def get_file_dict(in_path, in_file_list):
     return tmp_file_dict
 
 
-# 获取目录下所有的csv文件
-def get_all_csv_file(in_path):
-    # 使用 glob 获取文件列表
-    tmp_file_list = glob.glob(os.path.join(in_path, "*.csv"))
-    return tmp_file_list
-
-
 # 获取包含指定字符串的文件，区分大小写
 def get_file_by_str(in_str, in_dir):
     file_list = os.listdir(in_dir)
@@ -309,7 +316,7 @@ def data_conversion(in_value, df_data):
     delta_d = df_data.max() - df_data.min()  # 最大最小的差值
     t_x = in_value / delta_d
     n_values = df_data * t_x
-    res_dat = n_values - n_values.min()
+    res_dat = n_values - n_values.min()  # 去除负值
     return res_dat
 
 
@@ -620,6 +627,9 @@ class DealConfig:
             self.config.read(self.config_file, encoding='GBK')
         except UnicodeDecodeError:
             self.config.read(self.config_file, encoding='UTF-8')
+
+    def get_config(self):
+        return self.config
 
     def set_config_table(self, in_section_name, in_value):
         self.config.set(in_section_name, '45g_table_file', in_value)

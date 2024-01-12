@@ -38,7 +38,7 @@ def get_all_csv_file(in_path):
 
 
 # 修改为你想要获取文件的目录
-folder_path = r'D:\working\data_conv\20240106\测试数据\4G\IQOO7_6454'
+folder_path = r'D:\working\data_conv\4G输出\6'
 
 res_dir_list = get_path_sub_dir(folder_path)
 

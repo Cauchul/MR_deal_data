@@ -151,7 +151,7 @@ def unzip_copy(in_path):
 
 
 if __name__ == '__main__':
-    folder_path = r'D:\working\data_conv\4G输出'
+    folder_path = r'D:\working\data_conv\20240111(1)\20240111'
     res_list = get_all_data_path(folder_path)
     # print(res_list)
     for i_path in res_list:

@@ -48,19 +48,14 @@ def merge_data(in_file_list, in_char):
     data.to_csv(fr'D:\working\data_conv\out_path\{out_file}', index=False)
 
 
-# def get_merge_file_list(in_path, in_char):
-#     tmp_csv_files = [os.path.join(in_path, file) for file in os.listdir(in_path) if
-#                      file.endswith('.csv') and in_char in file]
-#     return tmp_csv_files
-
-def get_merge_file_list(in_path, in_char, in_ot_char):
+def get_merge_file_list(in_path, in_char):
     tmp_csv_files = [os.path.join(in_path, file) for file in os.listdir(in_path) if
-                     file.endswith('.csv') and in_char in file and in_ot_char in file]
+                     file.endswith('.csv') and in_char in file]
     return tmp_csv_files
 
 
 if __name__ == '__main__':
-    folder_path = r'D:\working\data_conv\室外1\iqoo7'
+    folder_path = r'D:\working\data_conv\src_data'
     res_dir_list = get_path_sub_dir(folder_path)
     file_list = []
 
@@ -68,9 +63,9 @@ if __name__ == '__main__':
         sub_path = os.path.join(folder_path, i_p)
         out_put_path = os.path.join(sub_path, 'output')
         # 获取需要合并的所有的文件list
-        res_list = get_merge_file_list(out_put_path, '5G', 'finger')
+        res_list = get_merge_file_list(out_put_path, '4G')
         file_list.extend(res_list)
     print(file_list)
     # 把list中的文件全部合并
-    merge_all_data(file_list)
+    # merge_all_data(file_list)
 
