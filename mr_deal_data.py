@@ -1172,7 +1172,7 @@ class WalkTour:
         log_df_4g['f_eci'] = log_df_4g['f_cell_id']
 
         # SID暂时都赋值1
-        log_df_4g['f_sid'] = ''
+        log_df_4g['f_sid'] = 1
         log_df_4g['f_pid'] = (log_df_4g.index + 1).astype(str)
 
         if in_wifi_flag:
