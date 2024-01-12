@@ -69,7 +69,7 @@ def copy_output_file_to_dir(in_char='4G'):
         print('---' * 50)
 
 
-data_path = r'E:\work\MR_Data\1月12号\下午测试'
+data_path = r'E:\work\MR_Data\1月12号\20240112'
 output_path = data_path
 copy_output_file_to_dir('4G')
 copy_output_file_to_dir('5G')
