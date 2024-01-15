@@ -48,8 +48,9 @@ def get_output_dir_csv(in_src_data):
     return tmp_res_list
 
 
+# 设置pid要所有需要排序的文件一起设置
 if __name__ == '__main__':
-    folder_path = r'E:\work\MR_Data\1月15号\demo\20240115数据\4G\反纵'
+    folder_path = r'E:\work\MR_Data\1月15号\demo\20240115数据\5G'
     # 获取当前路径下的所有csv文件
     # res_file_list = get_cur_dir_all_csv(folder_path)
     # 获取所有的output

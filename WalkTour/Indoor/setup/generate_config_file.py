@@ -62,7 +62,7 @@ def generate_config(in_csv_path):
 
 
 if __name__ == '__main__':
-    folder_path = r'E:\work\MR_Data\1月15号\demo\20240115数据\4G'
+    folder_path = r'E:\work\MR_Data\1月15号\demo\20240115数据\5G\反横'
     # 获取csv文件的路径
     res_csv_path_list = FindFile.get_csv_file_dir_list(folder_path)
     print('res_csv_path_list: ', res_csv_path_list)

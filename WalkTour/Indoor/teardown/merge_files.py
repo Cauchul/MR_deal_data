@@ -66,11 +66,22 @@ def get_output_dir_csv(in_src_data):
 
 
 if __name__ == '__main__':
-    folder_path = r'E:\work\MR_Data\1月15号\demo\20240115数据\4G'
+    folder_path = r'E:\work\MR_Data\1月15号\demo\20240115数据\5G\反横'
     # 获取当前路径下的所有csv文件
     # res_file_list = FindFile.get_cur_dir_all_csv(folder_path)
     # 获取output目录
     res_file_list = get_output_dir_csv(folder_path)
+    # 获取sub目录
+    # res_dir_list = get_path_sub_dir(folder_path)
+    # res_file_list = []
+    #
+    # for i_p in res_dir_list:
+    #     sub_path = os.path.join(folder_path, i_p)
+    #     out_put_path = os.path.join(sub_path, 'output')
+    #     # 获取需要合并的所有的文件list
+    #     res_list = get_merge_file_list(out_put_path, '4G', 'finger')
+    #     res_file_list.extend(res_list)
+
     print(res_file_list)
     # 把list中的文件全部合并
     merge_all_data(res_file_list)
