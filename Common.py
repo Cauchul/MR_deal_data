@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import configparser
+import fnmatch
 import glob
 import inspect
 import math
@@ -18,6 +19,31 @@ from matplotlib import pyplot as plt
 
 # from DataPreprocessing import DataPreprocessing
 # from GlobalConfig import tmp_res_out_path, f_msisdn_dict
+
+class FindFile:
+    @staticmethod
+    def find_files_with_string(in_path, in_string):
+        matches = []
+        for path, dirs, files in os.walk(in_path):
+            for i_file in files:
+                if fnmatch.fnmatch(i_file, f'*{in_string}*'):
+                    matches.append(os.path.join(path, i_file))
+        return matches
+
+    # 获取当前目录下的所有csv文件
+    @staticmethod
+    def get_cur_dir_all_csv(in_src_data):
+        tmp_csv_files = [os.path.join(in_src_data, file) for file in os.listdir(in_src_data) if file.endswith('.csv')]
+        return tmp_csv_files
+
+    # 获取当前路径下，所有包含csv文件的路径，返回list
+    @staticmethod
+    def get_csv_file_dir_list(in_folder_path):
+        in_res_list = get_all_data_path(in_folder_path, '.csv')
+        # list 去重
+        in_res_list = list(set(in_res_list))
+        return in_res_list
+
 
 class Common:
     @staticmethod

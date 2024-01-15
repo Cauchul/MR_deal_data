@@ -56,7 +56,7 @@ def get_merge_file_list(in_path, in_char, in_ot_char):
 
 if __name__ == '__main__':
     # 处理当前路径下的文件
-    folder_path = r'E:\work\MR_Data\data_place'
+    folder_path = r'E:\work\MR_Data\1月15号\20240115数据\4G\反横'
     file_list = []
     res_list = get_all_data_path(folder_path, '5G')
     # print(res_list)

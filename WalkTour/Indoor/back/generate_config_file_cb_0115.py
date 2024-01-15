@@ -2,7 +2,8 @@
 # 找到csv所在的目录
 import os
 
-from Common import get_all_data_path, config, print_with_line_number, get_all_csv_file
+from Common import get_all_data_path, config, print_with_line_number, get_all_csv_file, FindFile
+
 
 # folder_path = r'D:\working\data_conv\20240111(1)\20240111'
 
@@ -52,19 +53,19 @@ def generate_WalkTour_config_file(in_file_list, in_config_out_path, in_data_type
         in_config.write(f)
 
 
-folder_path = r'E:\work\MR_Data\下午测试'
+folder_path = r'E:\work\MR_Data\1月15号\demo\20240115数据\4G\反横'
 # 获取csv文件的路径
 res_csv_path_list = outdoor_get_csv_file_dir_list(folder_path)
 
 # 遍历每一个csv路径
-for i_dir in res_csv_path_list:
-    print_with_line_number(f'当前数据路径：{i_dir}', __file__)
-    # 获取路径下的所有的csv文件，list
-    res_csv_file_list = get_all_csv_file(i_dir)
-    # print_with_line_number(res_csv_file_list, __file__)
-    # 生成指纹
-    generate_WalkTour_config_file(res_csv_file_list, i_dir, 'finger')
-    print('--' * 50)
-    # 生成uemr
-    generate_WalkTour_config_file(res_csv_file_list, i_dir, 'uemr')
-    print('==' * 50)
+# for i_dir in res_csv_path_list:
+#     print_with_line_number(f'当前数据路径：{i_dir}', __file__)
+#     # 获取路径下的所有的csv文件，list
+#     res_csv_file_list = get_all_csv_file(i_dir)
+#     # print_with_line_number(res_csv_file_list, __file__)
+#     # 生成指纹
+#     # generate_WalkTour_config_file(res_csv_file_list, i_dir, 'finger')
+#     # print('--' * 50)
+#     # 生成uemr
+#     generate_WalkTour_config_file(res_csv_file_list, i_dir, 'uemr')
+#     print('==' * 50)

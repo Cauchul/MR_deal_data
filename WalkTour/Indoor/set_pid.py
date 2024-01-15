@@ -1,13 +1,17 @@
 # -*- coding: utf-8 -*-
 # 设置pid
+import os
+
 from Common import get_all_data_path, print_with_line_number, Common, read_csv_get_df, df_write_to_csv
 
 
 def set_pid(in_char='4G'):
+    # 通过标志查找文件
     print_with_line_number(f'当前查找文件的标志为：{in_char}', __file__)
     in_file_list = []
     in_res_list = get_all_data_path(folder_path, in_char)
     # print(res_list)
+    # 获取每个目录下的所有文件
     for i_path in in_res_list:
         print_with_line_number(f'当前处理的路径：{i_path}', __file__)
         # res_list = Common.split_path_get_list(i_path)
@@ -17,6 +21,7 @@ def set_pid(in_char='4G'):
         print_with_line_number(f'返回的文件列表：{res_file_list}', __file__)
         print('---' * 50)
     # print_with_line_number(f'需要合并的文件列表为：{in_file_list}', __file__)
+    # 每个文件的pid都重新设置，然后重新写会原来文件
     for i_f in in_file_list:
         print_with_line_number(f'修改文件的pid：{i_f}', __file__)
         res_df = read_csv_get_df(i_f)
@@ -25,11 +30,59 @@ def set_pid(in_char='4G'):
         # print('---' * 50)
 
 
+def get_cur_dir_all_csv(in_src_data):
+    tmp_csv_files = [os.path.join(in_src_data, file) for file in os.listdir(in_src_data) if file.endswith('.csv')]
+    return tmp_csv_files
+
+
+def set_pid_in_file_list(in_file_list):
+    for i_f in in_file_list:
+        print_with_line_number(f'修改文件的pid：{i_f}', __file__)
+        res_df = read_csv_get_df(i_f)
+        if 'f_pid' in res_df:
+            res_df['f_pid'] = (res_df.index + 1).astype(str)
+        else:
+            res_df['u_pid'] = (res_df.index + 1).astype(str)
+
+        df_write_to_csv(res_df, i_f)
+
+
+# 找到目录下所有的output目录
+def find_output_dir(in_path):
+    output_directories = []
+
+    # 遍历根目录及其子目录
+    for in_res_folder_name, in_res_sub_folder, in_res_file_name in os.walk(in_path):
+        # 检查当前目录是否包含 "output"
+        if "output" in in_res_sub_folder:
+            output_directories.append(os.path.join(in_res_folder_name, "output"))
+
+    return output_directories
+
+
+def get_output_dir_csv(in_src_data):
+    tmp_res_list = []
+    in_output_dir_list = find_output_dir(in_src_data)
+    for i_dir in in_output_dir_list:
+        in_res_list = Common.list_files_in_directory(i_dir)
+        tmp_res_list.extend(in_res_list)
+    return tmp_res_list
+
+
 if __name__ == '__main__':
-    folder_path = r'E:\work\MR_Data\data_place'
-    set_pid('4G')
-    print('++' * 50)
-    set_pid('5G')
+    folder_path = r'E:\work\MR_Data\1月15号\20240115数据'
+    # 获取当前路径下的所有csv文件
+    # res_file_list = get_cur_dir_all_csv(folder_path)
+    # 获取output目录
+    res_file_list = get_output_dir_csv(folder_path)
+    filtered_list = [x for x in res_file_list if 'finger' in x]
+    print(filtered_list)
+    set_pid_in_file_list(res_file_list)
+
+    # set_pid('4G')
+    # print('++' * 50)
+    # set_pid('5G')
+
     # file_list = []
     # res_list = get_all_data_path(folder_path, '5G')
     # # print(res_list)
