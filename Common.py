@@ -357,6 +357,19 @@ def get_split_str(in_str):
     return res_list
 
 
+# 给文件名添加后缀
+def file_add_specified_suffix(in_file, *in_suffix):
+    in_res_file_name, in_res_file_extension = os.path.splitext(in_file)
+    # print('in_res_file_name: ', in_res_file_name)
+    if f'_{in_suffix[0]}' not in in_res_file_name:
+        suffix_str = "_".join(in_suffix)
+        print_with_line_number(f'文件添加后缀为: {suffix_str}', __file__)
+        in_tmp_file_name = in_res_file_name + f'_{suffix_str}' + in_res_file_extension
+    else:
+        in_tmp_file_name = in_res_file_name + in_res_file_extension
+    return in_tmp_file_name
+
+
 # 找到目录下所有的output目录
 def find_output_dir(in_path):
     output_directories = []

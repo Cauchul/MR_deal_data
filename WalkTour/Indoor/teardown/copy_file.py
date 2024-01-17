@@ -66,7 +66,7 @@ def copy_merge_file_to_dir(in_src_path):
 
 # 拷贝output目录下的文件
 if __name__ == '__main__':
-    data_path = r'E:\work\MR_Data\1月15号\demo\20240115数据\4G\正横'
+    data_path = r'E:\work\MR_Data\1月12号\45G_小米13_源数据\下午测试'
     output_path = data_path
     copy_output_file_to_dir('4G')
     copy_output_file_to_dir('5G')

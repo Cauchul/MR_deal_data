@@ -66,7 +66,7 @@ def get_output_dir_csv(in_src_data):
 
 
 if __name__ == '__main__':
-    folder_path = r'E:\work\MR_Data\1月15号\demo\20240115数据\5G\反横'
+    folder_path = r'E:\work\MR_Data\1月15号\20240115数据_new_changge\5G'
     # 获取当前路径下的所有csv文件
     # res_file_list = FindFile.get_cur_dir_all_csv(folder_path)
     # 获取output目录
@@ -82,6 +82,8 @@ if __name__ == '__main__':
     #     res_list = get_merge_file_list(out_put_path, '4G', 'finger')
     #     res_file_list.extend(res_list)
 
+    # res_file_list = FindFile.find_files_with_string(folder_path, 'set_sid')
     print(res_file_list)
+
     # 把list中的文件全部合并
     merge_all_data(res_file_list)

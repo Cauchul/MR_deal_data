@@ -64,15 +64,21 @@ def get_output_dir_csv(in_src_data):
         in_res_list = Common.list_files_in_directory(i_dir)
         tmp_res_list.extend(in_res_list)
     # 只获取finger文件
-    tmp_res_list = [x for x in tmp_res_list if 'finger' in x]
+    # tmp_res_list = [x for x in tmp_res_list if 'finger' in x]
     return tmp_res_list
 
 
+def get_cur_dir_all_csv(in_src_data):
+    tmp_csv_files = [os.path.join(in_src_data, file) for file in os.listdir(in_src_data) if
+                     file.endswith('.csv') and 'finger' in file]
+    return tmp_csv_files
+
+
 if __name__ == '__main__':
-    folder_path = r'E:\work\MR_Data\1月15号\demo\20240115数据\5G\反横'
+    folder_path = r'E:\work\MR_Data\1月15号\20240115数据_new_changge'
     # 获取当前路径下的所有csv文件
     # res_file_list = get_cur_dir_all_csv(folder_path)
     # 获取output目录
     res_file_list = get_output_dir_csv(folder_path)
-    # print(res_file_list)
+    print(res_file_list)
     reset_pid(res_file_list)
