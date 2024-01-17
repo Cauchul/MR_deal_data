@@ -75,7 +75,7 @@ def get_cur_dir_all_csv(in_src_data):
 
 
 if __name__ == '__main__':
-    folder_path = r'E:\work\MR_Data\1月15号\20240115数据_new_changge'
+    folder_path = r'E:\work\MR_Data\1月16号\20240116'
     # 获取当前路径下的所有csv文件
     # res_file_list = get_cur_dir_all_csv(folder_path)
     # 获取output目录

@@ -16,13 +16,13 @@ def reset_sid_value(in_file_list):
             res_df['f_sid'] = f_sid
             # res_df['f_sid'] = 1
             print_with_line_number(f'当前 f_sid 设置的sid为: {f_sid}', __file__)
-        else:
-            u_sid = cnt
-            res_df['u_sid'] = u_sid
-            # res_df['u_sid'] = 1
-            print_with_line_number(f'当前 u_sid 设置的sid为: {u_sid}', __file__)
-        df_write_to_csv(res_df, i_path)
-        print('---' * 50)
+        # else:
+        #     u_sid = cnt
+        #     res_df['u_sid'] = u_sid
+        #     # res_df['u_sid'] = 1
+        #     print_with_line_number(f'当前 u_sid 设置的sid为: {u_sid}', __file__)
+            df_write_to_csv(res_df, i_path)
+            print('---' * 50)
 
 
 def get_cur_dir_all_csv(in_src_data):
@@ -50,7 +50,7 @@ def get_output_dir_csv(in_src_data):
 
 # 设置pid要所有需要排序的文件一起设置
 if __name__ == '__main__':
-    folder_path = r'E:\work\MR_Data\1月15号\20240115数据_new_changge\5G'
+    folder_path = r'E:\work\MR_Data\1月16号\20240116\5G'
     # 获取当前路径下的所有csv文件
     # res_file_list = get_cur_dir_all_csv(folder_path)
     # 获取所有的output
