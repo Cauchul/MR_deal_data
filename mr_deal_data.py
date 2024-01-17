@@ -1706,11 +1706,14 @@ class DealData:
         return res_wifi_bluetooth_df
 
     def deal_zcy_char_csv_file(self, char_df):
-        res_lat, res_lon = CommonFunc.transform_x_y_list_to_gps(self.lon, self.lat, char_df['x'].values, char_df['y'].values)
+        res_x = Common.data_conversion(self.x, char_df['x'])
+        res_y = Common.data_conversion(self.y, char_df['y'])
+
+        res_lat, res_lon = CommonFunc.transform_x_y_list_to_gps(self.lon, self.lat, res_x, res_y)
         char_df['f_longitude'] = res_lon
         char_df['f_latitude'] = res_lat
-        char_df['f_x'] = char_df['x']
-        char_df['f_y'] = char_df['y']
+        char_df['f_x'] = res_x
+        char_df['f_y'] = res_y
 
         # 删除列
         columns_to_delete = ['x', 'y']
