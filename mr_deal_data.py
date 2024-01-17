@@ -13,6 +13,7 @@ import numpy as np
 import pandas as pd
 import pytz
 from matplotlib import pyplot as plt
+from pyproj import Transformer
 
 
 class Config:
@@ -380,6 +381,7 @@ class WeTest:
                 ['test_time', 'created_by_ue_time', 'x', 'y', 'longitude', 'latitude', 'altitude']]
 
         in_zcy_df = in_deal_zcy_char_csv_file(tmp_zcy_df)
+
         in_ue_df = Common.read_csv_get_df(in_ue_file)
         print_with_line_number(f'读取ue文件：{in_ue_file}')
         # if '-' not in str(in_ue_df['pc_time'])[0] and '/' not in str(in_ue_df['pc_time'])[0]:
@@ -1190,6 +1192,47 @@ class WalkTour:
         return log_df_4g
 
 
+class CommonFunc:
+    tf_for_gps_to_utm = Transformer.from_crs(4326, 32750)
+    tf_for_utm_to_gps = Transformer.from_crs(32750, 4326)
+
+    @staticmethod
+    def transform_gps_to_utm(longitude, latitude):
+        utm_x, utm_y = CommonFunc.tf_for_gps_to_utm.transform(latitude, longitude)
+        return utm_x, utm_y
+
+    @staticmethod
+    def transform_utm_to_gps(x, y):
+        longitude, latitude = CommonFunc.tf_for_utm_to_gps.transform(x, y)
+        return longitude, latitude
+
+    @staticmethod
+    def transform_x_y_list_to_gps(zero_point_lon, zero_point_lat, x_list, y_list):
+        """
+        转换xy坐标到经纬度
+        :param:
+            zero_point_lon : 原点经度
+            zero_point_lat : 原点维度
+            x_list : 待转换的x坐标列表
+            y_list : 待转换的y坐标列表
+        :return:
+            lon_list: 经度
+            lat_list: 纬度
+        """
+        zero_point_utm_x, zero_point_utm_y = CommonFunc.transform_gps_to_utm(zero_point_lon, zero_point_lat)
+        cov_len = len(x_list)
+        x_list_utm = np.zeros(cov_len, dtype=np.float64)
+        y_list_utm = np.zeros(cov_len, dtype=np.float64)
+        for i in range(cov_len):
+            x_list_utm[i] = zero_point_utm_x + x_list[i]
+            y_list_utm[i] = zero_point_utm_y + y_list[i]
+        lon_list = np.zeros(cov_len, dtype=np.float64)
+        lat_list = np.zeros(cov_len, dtype=np.float64)
+        for i in range(cov_len):
+            lon_list[i], lat_list[i] = CommonFunc.transform_utm_to_gps(x_list_utm[i], y_list_utm[i])
+        return lon_list, lat_list
+
+
 class OutDataTableFormat:
     WalkTour4G = ['finger_id', 'f_province', 'f_city', 'f_district', 'f_street',
                   'f_building', 'f_floor', 'f_area', 'f_prru_id', 'f_scenario',
@@ -1663,23 +1706,36 @@ class DealData:
         return res_wifi_bluetooth_df
 
     def deal_zcy_char_csv_file(self, char_df):
-        res_x1_values = Common.data_conversion(self.x, char_df['x'])
-        lon = res_x1_values / (111000 * math.cos(self.lon / 180 * math.pi)) + self.lon
-        lon = 2 * max(lon) - lon
-
-        res_y1_values = Common.data_conversion(self.y, char_df['y'])
-        lat = res_y1_values / 111000 + self.lat
-
-        char_df['f_x'] = res_x1_values
-        char_df['f_y'] = res_y1_values
-        char_df['f_longitude'] = lon
-        char_df['f_latitude'] = lat
+        res_lat, res_lon = CommonFunc.transform_x_y_list_to_gps(self.lon, self.lat, char_df['x'].values, char_df['y'].values)
+        char_df['f_longitude'] = res_lon
+        char_df['f_latitude'] = res_lat
+        char_df['f_x'] = char_df['x']
+        char_df['f_y'] = char_df['y']
 
         # 删除列
         columns_to_delete = ['x', 'y']
         res_char_data = char_df.drop(columns_to_delete, axis=1)
 
         return res_char_data
+
+    # def deal_zcy_char_csv_file(self, char_df):
+    #     res_x1_values = Common.data_conversion(self.x, char_df['x'])
+    #     lon = res_x1_values / (111000 * math.cos(self.lon / 180 * math.pi)) + self.lon
+    #     lon = 2 * max(lon) - lon
+    #
+    #     res_y1_values = Common.data_conversion(self.y, char_df['y'])
+    #     lat = res_y1_values / 111000 + self.lat
+    #
+    #     char_df['f_x'] = res_x1_values
+    #     char_df['f_y'] = res_y1_values
+    #     char_df['f_longitude'] = lon
+    #     char_df['f_latitude'] = lat
+    #
+    #     # 删除列
+    #     columns_to_delete = ['x', 'y']
+    #     res_char_data = char_df.drop(columns_to_delete, axis=1)
+    #
+    #     return res_char_data
 
     def get_wifi_bluetooth_data(self):
         print_with_line_number('获取wifi 蓝牙数据')
