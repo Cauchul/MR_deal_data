@@ -62,10 +62,11 @@ def generate_config(in_csv_path):
 
 
 if __name__ == '__main__':
-    folder_path = r'E:\work\MR_Data\1月12号\20240112'
+    folder_path = r'E:\work\demo\20240116\4G'
     # 获取csv文件的路径
     res_csv_path_list = FindFile.get_csv_file_dir_list(folder_path)
     print('res_csv_path_list: ', res_csv_path_list)
+    res_csv_path_list = [in_i_string for in_i_string in res_csv_path_list if
+                         'output' not in in_i_string and 'unzip' not in in_i_string]
     # 在csv文件的路径下，生成config文件
     generate_config(res_csv_path_list)
-
