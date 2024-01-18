@@ -864,9 +864,9 @@ class WalkTour:
                                  how='left')
         tmp_merger_df = in_deal_data.deal_zcy_char_csv_file(tmp_merger_df)
 
-        print_with_line_number(f"走测仪原始数据保存为：{os.path.join(zcy_data_path, 'wifi_bluetooth_merge_data.csv')}")
+        print_with_line_number(f"走测仪原始数据保存为：{os.path.join(zcy_data_path, 'zcy_wifi_bluetooth_merge_data.csv')}")
         try:
-            Common.df_write_to_csv(tmp_merger_df, os.path.join(zcy_data_path, 'wifi_bluetooth_merge_data.csv'))
+            Common.df_write_to_csv(tmp_merger_df, os.path.join(zcy_data_path, 'zcy_wifi_bluetooth_merge_data.csv'))
         except PermissionError as e:
             print_with_line_number(f'写文件报错：{e}')
 
@@ -2127,12 +2127,12 @@ class DealData:
             return
 
         # 保存一份处理之前的数据(添加接口)
-        cur_path_out_file = os.path.join(cur_path_output, f'WT_wifi_bluetooth_{n_scene}_{data_type}_原始文件.csv')
-        print_with_line_number(f'生成原始df数据文件：{cur_path_out_file}')
-        try:
-            Common.df_write_to_csv(res_merge_df, cur_path_out_file)
-        except PermissionError as e:
-            print_with_line_number(f'写文件报错：{e}')
+        # cur_path_out_file = os.path.join(cur_path_output, f'WT_wifi_bluetooth_{n_scene}_{data_type}_原始文件.csv')
+        # print_with_line_number(f'生成原始df数据文件：{cur_path_out_file}')
+        # try:
+        #     Common.df_write_to_csv(res_merge_df, cur_path_out_file)
+        # except PermissionError as e:
+        #     print_with_line_number(f'写文件报错：{e}')
 
         # 设置场景信息
         print_with_line_number('----step 2:设置场景信息----')
