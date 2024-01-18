@@ -77,15 +77,13 @@ def get_config_project(in_config_file=r'E:\work\demo\config.ini'):
     return res_in_config
 
 
-def set_config_info(in_config, in_data_type, in_test_area, in_section_name='WalkTour'):
+def set_config_info(in_config, in_data_type, in_section_name='WalkTour'):
     in_config.set(in_section_name, 'is_enabled', 'true')
     in_config.set(in_section_name, 'data_type', in_data_type)
-    in_config.set(in_section_name, 'test_area', in_test_area)
 
 
-def set_WalkTour_config_file_info(in_folder_path, in_data_type):
-    in_section_name = 'WalkTour'
-    in_test_area = 'outdoor'
+def set_wifi_bluetooth_config_file_info(in_folder_path, in_data_type):
+    in_section_name = 'WIFI_BlueTooth'
 
     in_config = get_config_project()
     # 获取所有的csv路径
@@ -100,17 +98,19 @@ def set_WalkTour_config_file_info(in_folder_path, in_data_type):
         for i_f in res_csv_file_list:
             if 'char' in i_f:
                 in_config.set(in_section_name, 'zcy_chart_file', i_f)
-                in_test_area = 'indoor'
                 print_with_line_number(f'char文件： {i_f}', __file__)
             elif 'table' in i_f:
                 in_config.set(in_section_name, '45g_table_file', i_f)
                 print_with_line_number(f'table文件： {i_f}', __file__)
+            elif 'WiFi_BlueTooth' in i_f:
+                in_config.set(in_section_name, 'wifi_bluetooth_file', i_f)
+                print_with_line_number(f'WiFi_BlueTooth文件： {i_f}', __file__)
             else:
                 in_config.set(in_section_name, '45g_test_log', i_f)
                 print_with_line_number(f'ue log 文件： {i_f}', __file__)
 
-        set_config_info(in_config, in_data_type, in_test_area, in_section_name)
-        config_out_file = os.path.join(i_path, f'{in_section_name}_{in_test_area}_{in_data_type}_config.ini')
+        set_config_info(in_config, in_data_type, in_section_name)
+        config_out_file = os.path.join(i_path, f'{in_section_name}_{in_data_type}_config.ini')
         print_with_line_number(f'生成文件 {config_out_file}', __file__)
         print('---' * 50)
         with open(config_out_file, 'w', encoding='UTF-8') as f:
@@ -118,40 +118,11 @@ def set_WalkTour_config_file_info(in_folder_path, in_data_type):
 
 
 if __name__ == '__main__':
-    folder_path = r'E:\work\MR_Data\1月11号\20240111_源数据\20240111'
+    folder_path = r'E:\work\MR_Data\1月16号\wifi_bluetooth\20240116'
 
     # 获取config
     # res_config = get_config_project()
 
     # 生成config文件
-    set_WalkTour_config_file_info(folder_path, 'finger')
-    set_WalkTour_config_file_info(folder_path, 'uemr')
-
-    # res_config = get_config_project()
-    # # 获取所有的csv路径
-    # res_list = get_csv_path_list(folder_path)
-    # # 获取目录下的所有的csv文件，准备写配置文件
-    # for i_path in res_list:
-    #     print_with_line_number(f'当前处理路径：{i_path}', __file__)
-    #     res_csv_file_list = get_all_csv_file(i_path)
-    #
-    #     # if len(res_csv_file_list) > 2:
-    #     #     print_with_line_number(f'error, 当前路径：{i_path}，不是WeTest数据，csv文件个数为：{len(res_csv_file_list)}', __file__)
-    #     #     exit()
-    #     for i_f in res_csv_file_list:
-    #         if 'char' in i_f:
-    #             res_config.set(section_name, 'zcy_chart_file', i_f)
-    #             test_area = 'indoor'
-    #             print_with_line_number(f'char文件： {i_f}', __file__)
-    #         elif 'table' in i_f:
-    #             print_with_line_number(
-    #                 f'error, 当前文件：{i_f}，是table文件', __file__)
-    #         else:
-    #             res_config.set(section_name, '45g_test_log', i_f)
-    #             print_with_line_number(f'ue log 文件： {i_f}', __file__)
-    #
-    #     set_config_info(res_config, data_type, test_area)
-    #     print('---' * 50)
-    #
-    #     with open(os.path.join(i_path, f'{section_name}_{data_type}_config.ini'), 'w', encoding='UTF-8') as f:
-    #         res_config.write(f)
+    set_wifi_bluetooth_config_file_info(folder_path, 'finger')
+    set_wifi_bluetooth_config_file_info(folder_path, 'uemr')

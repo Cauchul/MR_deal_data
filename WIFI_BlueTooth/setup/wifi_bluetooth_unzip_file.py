@@ -39,7 +39,7 @@ def copy_char_file(in_path):
     # check_path(in_output_path)
     for root, dirs, files in os.walk(in_unzip_path):
         for file in files:
-            if '-chart' in file or '_pci_' in file:
+            if '-chart' in file or '_pci_' in file or 'WiFi_BlueTooth' in file:
                 file_path = os.path.join(root, file)
                 # print('file_path: ', file_path)
                 if os.path.exists(os.path.join(in_path, file)):
@@ -151,7 +151,7 @@ def unzip_copy(in_path):
 
 
 if __name__ == '__main__':
-    folder_path = r'E:\work\MR_Data\1月11号\20240111_源数据\20240111'
+    folder_path = r'E:\work\MR_Data\1月16号\wifi_bluetooth\20240116'
     res_list = get_all_data_path(folder_path)
     # print(res_list)
     for i_path in res_list:
