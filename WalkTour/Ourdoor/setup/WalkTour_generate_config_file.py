@@ -62,6 +62,8 @@ def get_csv_path_list(in_data_path):
     # 去除output和unzip目录；或许需要生成config文件的目录
     res_in_path_list = [in_i_string for in_i_string in in_res_path_list if
                         'output' not in in_i_string and 'unzip' not in in_i_string]
+    # 列表排序
+    res_in_path_list.sort()
     return res_in_path_list
 
 
@@ -75,75 +77,81 @@ def get_config_project(in_config_file=r'E:\work\demo\config.ini'):
     return res_in_config
 
 
-def set_config_info(in_config, in_data_type, in_test_area, in_section_name='WeTest'):
+def set_config_info(in_config, in_data_type, in_test_area, in_section_name='WalkTour'):
     in_config.set(in_section_name, 'is_enabled', 'true')
     in_config.set(in_section_name, 'data_type', in_data_type)
     in_config.set(in_section_name, 'test_area', in_test_area)
 
 
-if __name__ == '__main__':
-    # folder_path = r'E:\work\MR_Data\1月12号\20240112'
-    # # 获取csv文件的路径
-    # res_csv_path_list = FindFile.get_csv_file_dir_list(folder_path)
-    # print('res_csv_path_list: ', res_csv_path_list)
-    # # 在csv文件的路径下，生成config文件
-    # generate_config(res_csv_path_list)
+def set_WalkTour_config_file_info(in_folder_path, in_data_type):
+    in_section_name = 'WalkTour'
+    in_test_area = 'outdoor'
 
-    res_config = get_config_project()
-
-    section_name = 'WeTest'
-    data_type = 'finger'
-    test_area = 'outdoor'
-
-    # 读取配置文件：
-    folder_path = r'E:\work\demo\20240116'
-
+    in_config = get_config_project()
     # 获取所有的csv路径
-    res_list = get_csv_path_list(folder_path)
+    res_list = get_csv_path_list(in_folder_path)
 
+    # print('res_list: ', res_list)
     # 获取目录下的所有的csv文件，准备写配置文件
     for i_path in res_list:
         print_with_line_number(f'当前处理路径：{i_path}', __file__)
         res_csv_file_list = get_all_csv_file(i_path)
 
-        # if len(res_csv_file_list) > 2:
-        #     print_with_line_number(f'error, 当前路径：{i_path}，不是WeTest数据，csv文件个数为：{len(res_csv_file_list)}', __file__)
-        #     exit()
         for i_f in res_csv_file_list:
             if 'char' in i_f:
-                res_config.set(section_name, 'zcy_chart_file', i_f)
-                test_area = 'indoor'
+                in_config.set(in_section_name, 'zcy_chart_file', i_f)
+                in_test_area = 'indoor'
                 print_with_line_number(f'char文件： {i_f}', __file__)
             elif 'table' in i_f:
-                print_with_line_number(
-                    f'error, 当前文件：{i_f}，是table文件', __file__)
+                in_config.set(in_section_name, '45g_table_file', i_f)
+                print_with_line_number(f'table文件： {i_f}', __file__)
             else:
-                res_config.set(section_name, '45g_test_log', i_f)
+                in_config.set(in_section_name, '45g_test_log', i_f)
                 print_with_line_number(f'ue log 文件： {i_f}', __file__)
 
-        set_config_info(res_config, data_type, test_area)
+        set_config_info(in_config, in_data_type, in_test_area, in_section_name)
+        config_out_file = os.path.join(i_path, f'{in_section_name}_{in_test_area}_{in_data_type}_config.ini')
+        print_with_line_number(f'生成文件 {config_out_file}', __file__)
         print('---' * 50)
+        with open(config_out_file, 'w', encoding='UTF-8') as f:
+            in_config.write(f)
 
-        with open(os.path.join(i_path, f'{section_name}_{data_type}_config.ini'), 'w', encoding='UTF-8') as f:
-            res_config.write(f)
-        # print_with_line_number(f'获取到的文件列表为：{res_csv_file_list}', __file__)
 
-    # config_file = r'E:\work\demo\config.ini'
-    # in_config = configparser.ConfigParser()
-    # try:
-    #     in_config.read(config_file, encoding='GBK')
-    # except UnicodeDecodeError:
-    #     in_config.read(config_file, encoding='UTF-8')
+if __name__ == '__main__':
+    folder_path = r'E:\work\MR_Data\1月18号\20240118_源数据\室外'
+
+    # 获取config
+    # res_config = get_config_project()
+
+    # 生成config文件
+    set_WalkTour_config_file_info(folder_path, 'finger')
+    set_WalkTour_config_file_info(folder_path, 'uemr')
+
+    # res_config = get_config_project()
+    # # 获取所有的csv路径
+    # res_list = get_csv_path_list(folder_path)
+    # # 获取目录下的所有的csv文件，准备写配置文件
+    # for i_path in res_list:
+    #     print_with_line_number(f'当前处理路径：{i_path}', __file__)
+    #     res_csv_file_list = get_all_csv_file(i_path)
     #
-    # in_config.set(section_name, 'is_enabled', 'true')
-    # in_config.set(section_name, 'data_type', in_data_type)
-    # in_config.set(section_name, 'test_area', in_data_type)
+    #     # if len(res_csv_file_list) > 2:
+    #     #     print_with_line_number(f'error, 当前路径：{i_path}，不是WeTest数据，csv文件个数为：{len(res_csv_file_list)}', __file__)
+    #     #     exit()
+    #     for i_f in res_csv_file_list:
+    #         if 'char' in i_f:
+    #             res_config.set(section_name, 'zcy_chart_file', i_f)
+    #             test_area = 'indoor'
+    #             print_with_line_number(f'char文件： {i_f}', __file__)
+    #         elif 'table' in i_f:
+    #             print_with_line_number(
+    #                 f'error, 当前文件：{i_f}，是table文件', __file__)
+    #         else:
+    #             res_config.set(section_name, '45g_test_log', i_f)
+    #             print_with_line_number(f'ue log 文件： {i_f}', __file__)
     #
-    # for i_f in res_csv_path_list:
-    #     if 'char' in i_f:
-    #         in_config.set(section_name, 'zcy_chart_file', i_f)
-    #         test_area = 'indoor'
-    #         print_with_line_number(f'char文件： {i_f}', __file__)
-    #     else:
-    #         in_config.set(section_name, '45g_test_log', i_f)
-    #         print_with_line_number(f'ue log 文件： {i_f}', __file__)
+    #     set_config_info(res_config, data_type, test_area)
+    #     print('---' * 50)
+    #
+    #     with open(os.path.join(i_path, f'{section_name}_{data_type}_config.ini'), 'w', encoding='UTF-8') as f:
+    #         res_config.write(f)

@@ -2,7 +2,7 @@
 # 设置pid
 import os
 
-from Common import get_all_data_path, print_with_line_number, Common, read_csv_get_df, df_write_to_csv
+from Common import get_data_path_by_char, print_with_line_number, Common, read_csv_get_df, df_write_to_csv
 
 
 # def set_pid(in_char='4G'):
@@ -75,7 +75,7 @@ def get_cur_dir_all_csv(in_src_data):
 
 
 if __name__ == '__main__':
-    folder_path = r'E:\work\MR_Data\1月16号\wifi_bluetooth\20240116'
+    folder_path = r'E:\work\MR_Data\1月12号\wifi_bluetooth\20240112'
     # 获取当前路径下的所有csv文件
     # res_file_list = get_cur_dir_all_csv(folder_path)
     # 获取output目录

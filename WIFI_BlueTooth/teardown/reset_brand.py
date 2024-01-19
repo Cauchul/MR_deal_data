@@ -56,7 +56,7 @@ def get_output_dir_csv(in_src_data):
 
 
 if __name__ == '__main__':
-    src_data = r'E:\work\MR_Data\1月16号\wifi_bluetooth\20240116'
+    src_data = r'E:\work\MR_Data\1月12号\wifi_bluetooth\20240112'
     # 获取当前目录
     # res_file_list = get_cur_dir_all_csv(src_data)
     # 获取output目录

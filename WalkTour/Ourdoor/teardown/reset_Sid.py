@@ -50,14 +50,12 @@ def get_output_dir_csv(in_src_data):
 
 # 设置pid要所有需要排序的文件一起设置
 if __name__ == '__main__':
-    folder_path = r'E:\work\MR_Data\1月18号\20240118_源数据\室内'
+    folder_path = r'E:\work\MR_Data\1月18号\20240118_源数据\室外'
     # 获取当前路径下的所有csv文件
     # res_file_list = get_cur_dir_all_csv(folder_path)
     # 获取所有的output
     # 获取output目录下的所有的csv文件
     res_file_list = get_output_dir_csv(folder_path)
-
-    print(res_file_list)
 
     LTE_file_list = [i_f for i_f in res_file_list if '4G' in i_f]
     NR_file_list = [i_f for i_f in res_file_list if '5G' in i_f]

@@ -3,12 +3,12 @@
 import configparser
 import os
 
-from Common import get_all_data_path, config, print_with_line_number, get_all_csv_file, FindFile
+from Common import get_data_path_by_char, config, print_with_line_number, get_all_csv_file, FindFile
 
 
 # 室外数据，获取csv所在的目录，list做自动化处理
 def outdoor_get_csv_file_dir_list(in_folder_path):
-    in_res_list = get_all_data_path(in_folder_path, '.csv')
+    in_res_list = get_data_path_by_char(in_folder_path, '.csv')
     # list 去重
     in_res_list = list(set(in_res_list))
     return in_res_list
@@ -118,7 +118,7 @@ def set_wifi_bluetooth_config_file_info(in_folder_path, in_data_type):
 
 
 if __name__ == '__main__':
-    folder_path = r'E:\work\MR_Data\1月16号\wifi_bluetooth\20240116'
+    folder_path = r'E:\work\MR_Data\1月12号\wifi_bluetooth\20240112'
 
     # 获取config
     # res_config = get_config_project()

@@ -3,7 +3,7 @@ import os.path
 
 import pandas as pd
 
-from Common import print_with_line_number, find_output_dir, get_all_data_path, Common
+from Common import print_with_line_number, find_output_dir, get_data_path_by_char, Common
 
 
 # 处理当前路径下的文件

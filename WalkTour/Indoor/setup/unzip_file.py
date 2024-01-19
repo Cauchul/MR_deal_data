@@ -5,7 +5,7 @@ import math
 import os
 
 from Common import clear_path, get_file_by_string, unzip, copy_file, read_csv_get_df, data_conversion, df_write_to_csv, \
-    generate_images, check_path, get_all_data_path
+    generate_images, check_path, get_data_path_by_char
 
 
 def unzip_zcy_zip_file(in_path):
@@ -151,8 +151,8 @@ def unzip_copy(in_path):
 
 
 if __name__ == '__main__':
-    folder_path = r'E:\work\MR_Data\1月11号\20240111_源数据\20240111'
-    res_list = get_all_data_path(folder_path)
+    folder_path = r'E:\work\MR_Data\1月18号\20240118_源数据\室内'
+    res_list = get_data_path_by_char(folder_path)
     # print(res_list)
     for i_path in res_list:
         print(i_path)

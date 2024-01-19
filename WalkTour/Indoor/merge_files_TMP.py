@@ -5,7 +5,7 @@ import shutil
 
 import pandas as pd
 
-from Common import get_path_sub_dir, get_all_csv_file, Common, get_all_data_path, print_with_line_number
+from Common import get_path_sub_dir, get_all_csv_file, Common, get_data_path_by_char, print_with_line_number
 
 
 def clear_directory(directory_path):
@@ -58,7 +58,7 @@ if __name__ == '__main__':
     # 处理当前路径下的文件
     folder_path = r'E:\work\MR_Data\1月15号\20240115数据\4G\反横'
     file_list = []
-    res_list = get_all_data_path(folder_path, '5G')
+    res_list = get_data_path_by_char(folder_path, '5G')
     # print(res_list)
     for i_path in res_list:
         print_with_line_number(f'当前处理的路径：{i_path}', __file__)

@@ -2,14 +2,14 @@
 # 设置pid
 import os
 
-from Common import get_all_data_path, print_with_line_number, Common, read_csv_get_df, df_write_to_csv
+from Common import get_data_path_by_char, print_with_line_number, Common, read_csv_get_df, df_write_to_csv
 
 
 def set_pid(in_char='4G'):
     # 通过标志查找文件
     print_with_line_number(f'当前查找文件的标志为：{in_char}', __file__)
     in_file_list = []
-    in_res_list = get_all_data_path(folder_path, in_char)
+    in_res_list = get_data_path_by_char(folder_path, in_char)
     # print(res_list)
     # 获取每个目录下的所有文件
     for i_path in in_res_list:

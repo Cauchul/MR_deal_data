@@ -39,7 +39,7 @@ class FindFile:
     # 获取当前路径下，所有包含csv文件的路径，返回list
     @staticmethod
     def get_csv_file_dir_list(in_folder_path):
-        in_res_list = get_all_data_path(in_folder_path, '.csv')
+        in_res_list = get_data_path_by_char(in_folder_path, '.csv')
         # list 去重
         in_res_list = list(set(in_res_list))
         return in_res_list
@@ -132,7 +132,7 @@ def get_all_csv_file(in_path):
 
 
 # 获取整个目录下zip文件存在的所有的子目录路径，也即数据路径
-def get_all_data_path(in_dir, in_char='zip'):
+def get_data_path_by_char(in_dir, in_char='zip'):
     tmp_data_path_list = []
     for root, dirs, files in os.walk(in_dir):
         # if root != in_dir:
@@ -386,6 +386,12 @@ def find_output_dir(in_path):
 # 获取当前目录下的所有子目录
 def get_path_sub_dir(directory):
     res_sub_dir = [d for d in os.listdir(directory) if os.path.isdir(os.path.join(directory, d))]
+    return res_sub_dir
+
+
+# 获取当前目录下的所有子目录的绝对路径
+def get_path_sub_absolute_dir(directory):
+    res_sub_dir = [os.path.join(directory, d) for d in os.listdir(directory) if os.path.isdir(os.path.join(directory, d))]
     return res_sub_dir
 
 

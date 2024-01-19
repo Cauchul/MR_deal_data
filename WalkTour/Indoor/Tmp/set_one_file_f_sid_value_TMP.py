@@ -2,7 +2,7 @@
 import os
 
 from Common import find_output_dir, Common, get_file_list_by_char, print_with_line_number, read_csv_get_df, \
-    df_write_to_csv, get_all_data_path
+    df_write_to_csv, get_data_path_by_char
 
 
 # 修改f_sid值
@@ -38,7 +38,7 @@ def set_f_sid_value(in_char='4G'):
 
 # 处理当前路径下的文件
 data_path = r'E:\work\MR_Data\data_place\5G'
-res_list = get_all_data_path(data_path, 'csv')
+res_list = get_data_path_by_char(data_path, 'csv')
 print(res_list)
 for i_path in res_list:
     print_with_line_number(f'当前处理的路径：{i_path}', __file__)

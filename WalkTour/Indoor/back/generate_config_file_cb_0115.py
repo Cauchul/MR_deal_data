@@ -2,7 +2,7 @@
 # 找到csv所在的目录
 import os
 
-from Common import get_all_data_path, config, print_with_line_number, get_all_csv_file, FindFile
+from Common import get_data_path_by_char, config, print_with_line_number, get_all_csv_file, FindFile
 
 
 # folder_path = r'D:\working\data_conv\20240111(1)\20240111'
@@ -10,7 +10,7 @@ from Common import get_all_data_path, config, print_with_line_number, get_all_cs
 
 # 室外数据，获取csv所在的目录，list做自动化处理
 def outdoor_get_csv_file_dir_list(in_folder_path):
-    in_res_list = get_all_data_path(in_folder_path, '.csv')
+    in_res_list = get_data_path_by_char(in_folder_path, '.csv')
     # list 去重
     in_res_list = list(set(in_res_list))
     # print(in_res_list)

@@ -3,7 +3,7 @@ import os.path
 
 import pandas as pd
 
-from Common import print_with_line_number, find_output_dir, get_all_data_path, Common
+from Common import print_with_line_number, find_output_dir, get_data_path_by_char, Common
 
 
 def delete_empty_value_column(in_csv_file_list):
@@ -48,7 +48,7 @@ def get_output_dir_csv(in_src_data):
 
 
 if __name__ == '__main__':
-    src_data = r'E:\work\MR_Data\1月16号\wifi_bluetooth\20240116'
+    src_data = r'E:\work\MR_Data\1月12号\wifi_bluetooth\20240112'
     # 获取当前目录下的所有的csv文件
     # res_file_list = get_cur_dir_all_csv(src_data)
     # 获取output目录下的所有的csv文件

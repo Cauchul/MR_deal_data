@@ -5,7 +5,7 @@ import shutil
 
 import pandas as pd
 
-from Common import get_path_sub_dir, get_all_csv_file, Common, FindFile, find_output_dir, print_with_line_number
+from Common import get_path_sub_dir, get_all_csv_file, Common, FindFile, find_output_dir
 
 
 # def clear_directory(directory_path):
@@ -66,7 +66,7 @@ def get_output_dir_csv(in_src_data):
 
 
 if __name__ == '__main__':
-    folder_path = r'E:\work\MR_Data\1月18号\20240118_源数据\室内'
+    folder_path = r'E:\work\MR_Data\1月18号\20240118_源数据\室外'
     # 获取当前路径下的所有csv文件
     # res_file_list = FindFile.get_cur_dir_all_csv(folder_path)
     # 获取output目录
@@ -87,16 +87,8 @@ if __name__ == '__main__':
 
     LTE_file_list = [i_f for i_f in res_file_list if '4G' in i_f]
     NR_file_list = [i_f for i_f in res_file_list if '5G' in i_f]
-    print_with_line_number(f'4G 文件 list：{LTE_file_list}', __file__)
-
-    if LTE_file_list:
-        print_with_line_number(f'开始 合并 4G 合并', __file__)
-        merge_all_data(LTE_file_list)
-    print('---' * 50)
-
-    print_with_line_number(f'5G 文件 list：{NR_file_list}', __file__)
+    print(LTE_file_list)
+    print(NR_file_list)
     # 把list中的文件全部合并
-    if NR_file_list:
-        print_with_line_number(f'开始 合并 5G 合并', __file__)
-        merge_all_data(NR_file_list)
-    print('---' * 50)
+    merge_all_data(LTE_file_list)
+    merge_all_data(NR_file_list)
