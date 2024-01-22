@@ -20,8 +20,6 @@ for i_dir in res_list:
 
         move_file(res_zip_file_list[0], res_sub_dir_list[-1])
 
-
-
 # 拷贝当前路径下的zip文件到每一个子目录
 # res_dir_list = get_path_sub_dir(r'E:\\work\\MR_Data\\1月18号\\demo\\20240118_源数据\\室内\\1')
 # print(res_dir_list)

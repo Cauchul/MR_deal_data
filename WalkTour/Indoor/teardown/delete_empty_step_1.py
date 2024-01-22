@@ -48,7 +48,7 @@ def get_output_dir_csv(in_src_data):
 
 
 if __name__ == '__main__':
-    src_data = r'E:\work\MR_Data\1月18号\20240118_源数据\室内'
+    src_data = r'E:\work\MR_Data\1月18号\20240118_源数据_clear\室内'
     # 获取当前目录下的所有的csv文件
     # res_file_list = get_cur_dir_all_csv(src_data)
     # 获取output目录下的所有的csv文件

@@ -36,63 +36,21 @@ def move_file(in_file_name):
         shutil.move(i_file_name, in_4G_dir)
 
 
-folder_path = r'E:\work\MR_Data\1月18号\demo\20240118_源数据'
-# 获取zip文件所在路径
-# res_list = get_data_path_by_char(folder_path)
-# print(res_list)
+if __name__ == '__main__':
+    folder_path = r'E:\work\MR_Data\1月18号\demo\20240118_源数据'
 
-# 获取所有的csv文件所在目录
-csv_path_list = get_csv_path_list(folder_path)
+    # 获取所有的csv文件所在目录
+    csv_path_list = get_csv_path_list(folder_path)
 
-# 找到目录所有文件
-for i_dir in csv_path_list:
-    print_with_line_number(f'当前处理路径:{i_dir}', __file__)
-    in_res_list = Common.list_files_in_directory(i_dir)
-    # 如果获取到的文件list中同时包含 4G 5G则需要把不同的文件分开
-    # print('in_res_list: ', in_res_list)
-
-    if len(in_res_list) > 3:
+    # 找到目录所有文件
+    for i_dir in csv_path_list:
+        print_with_line_number(f'当前处理路径:{i_dir}', __file__)
+        in_res_list = Common.list_files_in_directory(i_dir)
+        # 如果获取到的文件list中同时包含 4G 5G则需要把不同的文件分开
         # print('in_res_list: ', in_res_list)
-        print('--' * 50)
-        for i_file_name in in_res_list:
-            move_file(i_file_name)
-            # if '5G' in os.path.basename(i_file_name):
-            #     nr_dir = os.path.dirname(i_file_name)
-            #     nr_dir = os.path.join(nr_dir, '5G')
-            #     print(nr_dir)
-            #     if not check_file_exists(nr_dir):
-            #         os.makedirs(nr_dir)
-            #
-            #     print(os.path.dirname(i_file_name))
-            #     shutil.move(i_file_name, nr_dir)
-            # elif '4G' in os.path.basename(i_file_name):
-            #     nr_dir = os.path.dirname(i_file_name)
-            #     nr_dir = os.path.join(nr_dir, '4G')
-            #     print(nr_dir)
-            #     if not check_file_exists(nr_dir):
-            #         os.makedirs(nr_dir)
-            #
-            #     print(os.path.dirname(i_file_name))
-            #     shutil.move(i_file_name, nr_dir)
 
-# 移动文件到目录
-# file_name = r'E:\work\MR_Data\1月18号\demo\20240118_源数据\室内\1\table_小米13-5G--IN20240118-095852-Ping(1)_0118121634.csv'
-
-# if '5G' in os.path.basename(file_name):
-#     nr_dir = os.path.dirname(file_name)
-#     nr_dir = os.path.join(nr_dir, '5G')
-#     print(nr_dir)
-#     if not check_file_exists(nr_dir):
-#         os.makedirs(nr_dir)
-#
-#     print(os.path.dirname(file_name))
-#     shutil.move(file_name, nr_dir)
-# elif '4G' in os.path.basename(file_name):
-#     nr_dir = os.path.dirname(file_name)
-#     nr_dir = os.path.join(nr_dir, '4G')
-#     print(nr_dir)
-#     if not check_file_exists(nr_dir):
-#         os.makedirs(nr_dir)
-#
-#     print(os.path.dirname(file_name))
-#     shutil.move(file_name, nr_dir)
+        if len(in_res_list) > 3:
+            # print('in_res_list: ', in_res_list)
+            print('--' * 50)
+            for i_file_name in in_res_list:
+                move_file(i_file_name)
