@@ -151,7 +151,7 @@ def unzip_copy(in_path):
 
 
 if __name__ == '__main__':
-    folder_path = r'E:\work\MR_Data\1月18号\20240118_源数据\室内'
+    folder_path = r'E:\work\MR_Data\1月22号\20210122'
     res_list = get_data_path_by_char(folder_path)
     # print(res_list)
     for i_path in res_list:

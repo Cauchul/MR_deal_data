@@ -98,7 +98,7 @@ def set_WalkTour_config_file_info(in_folder_path, in_data_type):
         res_csv_file_list = get_all_csv_file(i_path)
 
         for i_f in res_csv_file_list:
-            if 'chart_clear' in i_f:
+            if 'chart' in i_f:
                 in_config.set(in_section_name, 'zcy_chart_file', i_f)
                 in_test_area = 'indoor'
                 print_with_line_number(f'char文件： {i_f}', __file__)
@@ -118,7 +118,7 @@ def set_WalkTour_config_file_info(in_folder_path, in_data_type):
 
 
 if __name__ == '__main__':
-    folder_path = r'E:\work\MR_Data\1月18号\20240118_源数据_clear\室内'
+    folder_path = r'E:\work\MR_Data\1月22号\20210122'
 
     # 获取config
     # res_config = get_config_project()

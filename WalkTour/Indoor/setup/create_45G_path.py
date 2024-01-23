@@ -15,5 +15,5 @@ def create_dir(in_path, in_list):
 if __name__ == '__main__':
     dir_list = ['4G', '5G']
     # 在当前目录下创建三个目录
-    data_path = r'E:\work\MR_Data\data_place'
+    data_path = r'E:\work\MR_Data\1月22号\20210122\孙晨\小米12'
     create_dir(data_path, dir_list)

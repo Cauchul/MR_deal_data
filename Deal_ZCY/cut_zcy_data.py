@@ -117,28 +117,28 @@ if __name__ == '__main__':
     #     copy_file(i_f, output_path)
 
     # 获取当前目录下的char文件
-    data_path = r'E:\work\MR_Data\1月18号\20240118_源数据\室内\6\5G'
+    data_path = r'E:\work\MR_Data\1月15号\20240115数据_new_changge_clear\4G\反横\1'
     res_char_file = get_cur_dir_char_file(data_path)
 
     # print(res_char_file)
     for i_f in res_char_file:
         res_f = file_add_specified_suffix(i_f, 'clear')
-
-        if 'clear' not in i_f:
+        # print(i_f)
+        if 'clear' not in os.path.basename(i_f):
             print(i_f)
             char_df = read_csv_get_df(i_f)
-            filtered_df = char_df.loc[char_df['x'].between(489, 608)]
+            # filtered_df = char_df.loc[char_df['x'].between(489, 608)]
             # filtered_df = char_df.loc[(char_df['y'] < 300) & (char_df['x'] < 921) | char_df['x'].between(300, 749)]
 
             # filtered_df = char_df.loc[(char_df['y'] < 950) & (char_df['x'] > 837) | char_df['y'].between(300, 765)]
             # filtered_df = char_df.loc[(char_df['x'] > 827) & (char_df['x'] < 957)]
 
             # 多条件
-            # condition1 = (char_df['x'] > 868) & (char_df['y'] > 766)
-            # condition2 = (char_df['y'] > 300) & (char_df['y'] < 766)
-            # condition3 = (char_df['y'] < 300) & (char_df['x'] < 913)
-            #
-            # # 合并切分后的数据
-            # filtered_df = pd.concat([char_df.loc[condition1], char_df.loc[condition2], char_df.loc[condition3]])
+            condition1 = (char_df['x'] > 538) & (char_df['y'] < 1029)
+            condition2 = (char_df['y'] > 600) & (char_df['y'] < 1000)
+            condition3 = (char_df['x'] < 592) & (char_df['y'] < 600)
+
+            # 合并切分后的数据
+            filtered_df = pd.concat([char_df.loc[condition1], char_df.loc[condition2], char_df.loc[condition3]])
 
             df_write_to_csv(filtered_df, res_f)
