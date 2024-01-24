@@ -56,10 +56,10 @@ def get_output_dir_csv(in_src_data):
 
 
 if __name__ == '__main__':
-    src_data = r'E:\work\MR_Data\1月16号\20240116'
+    src_data = r'E:\work\MR_Data\data_place\merge_finger_水平纠偏'
     # 获取当前目录
-    # res_file_list = get_cur_dir_all_csv(src_data)
+    res_file_list = get_cur_dir_all_csv(src_data)
     # 获取output目录
-    res_file_list = get_output_dir_csv(src_data)
+    # res_file_list = get_output_dir_csv(src_data)
     print(res_file_list)
     set_brand(res_file_list)

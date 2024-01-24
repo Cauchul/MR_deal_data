@@ -12,7 +12,7 @@ from Common import find_output_dir, get_file_list_by_char, print_with_line_numbe
 def file_add_specified_suffix(in_file, *in_suffix):
     in_res_file_name, in_res_file_extension = os.path.splitext(in_file)
     # print('in_res_file_name: ', in_res_file_name)
-    if f'_{in_suffix[0]}' not in in_res_file_name:
+    if f'_{in_suffix[0]}' not in os.path.basename(in_res_file_name):
         suffix_str = "_".join(in_suffix)
         print_with_line_number(f'文件添加后缀为: {suffix_str}', __file__)
         in_tmp_file_name = in_res_file_name + f'_{suffix_str}' + in_res_file_extension
@@ -117,7 +117,7 @@ if __name__ == '__main__':
     #     copy_file(i_f, output_path)
 
     # 获取当前目录下的char文件
-    data_path = r'E:\work\MR_Data\1月15号\20240115数据_new_changge_clear\4G\反横\1'
+    data_path = r'E:\work\MR_Data\1月12号\20240112_clear\4G'
     res_char_file = get_cur_dir_char_file(data_path)
 
     # print(res_char_file)
@@ -125,7 +125,7 @@ if __name__ == '__main__':
         res_f = file_add_specified_suffix(i_f, 'clear')
         # print(i_f)
         if 'clear' not in os.path.basename(i_f):
-            print(i_f)
+            print('res_f: ', res_f)
             char_df = read_csv_get_df(i_f)
             # filtered_df = char_df.loc[char_df['x'].between(489, 608)]
             # filtered_df = char_df.loc[(char_df['y'] < 300) & (char_df['x'] < 921) | char_df['x'].between(300, 749)]
@@ -133,12 +133,15 @@ if __name__ == '__main__':
             # filtered_df = char_df.loc[(char_df['y'] < 950) & (char_df['x'] > 837) | char_df['y'].between(300, 765)]
             # filtered_df = char_df.loc[(char_df['x'] > 827) & (char_df['x'] < 957)]
 
-            # 多条件
-            condition1 = (char_df['x'] > 538) & (char_df['y'] < 1029)
-            condition2 = (char_df['y'] > 600) & (char_df['y'] < 1000)
-            condition3 = (char_df['x'] < 592) & (char_df['y'] < 600)
+            # between
+            filtered_df = char_df.loc[char_df['x'].between(817, 902)]
 
-            # 合并切分后的数据
-            filtered_df = pd.concat([char_df.loc[condition1], char_df.loc[condition2], char_df.loc[condition3]])
+            # 多条件
+            # condition1 = (char_df['x'] > 538) & (char_df['y'] < 1029)
+            # condition2 = (char_df['y'] > 600) & (char_df['y'] < 1000)
+            # condition3 = (char_df['x'] < 592) & (char_df['y'] < 600)
+            #
+            # # 合并切分后的数据
+            # filtered_df = pd.concat([char_df.loc[condition1], char_df.loc[condition2], char_df.loc[condition3]])
 
             df_write_to_csv(filtered_df, res_f)
