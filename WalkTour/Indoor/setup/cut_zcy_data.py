@@ -39,7 +39,7 @@ def get_cur_dir_char_file(in_src_data):
 # 拷贝output目录下的文件
 if __name__ == '__main__':
     # 获取当前目录下的char文件
-    data_path = r'E:\work\MR_Data\1月15号\20240115数据_new_changge_clear\5G\正纵\3'
+    data_path = r'E:\work\MR_Data\1月12号\下午测试(1)_new_0125\下午测试\3\5G'
     res_char_file = get_cur_dir_char_file(data_path)
 
     res_char_file = [x for x in res_char_file if 'chart_clear' not in x]
@@ -50,14 +50,14 @@ if __name__ == '__main__':
             print_with_line_number(f'当前处理文件为: {i_f} ', __file__)
             char_df = read_csv_get_df(i_f)
             # between
-            filtered_df = char_df.loc[char_df['x'].between(524, 620)]
+            # filtered_df = char_df.loc[char_df['x'].between(524, 620)]
 
             # 多条件
-            # condition1 = (char_df['x'] > 560) & (char_df['y'] < 1200) & (char_df['y'] > 1020)
-            # condition2 = (char_df['y'] > 620) & (char_df['y'] < 1020)
-            # condition3 = (char_df['x'] < 630) & (char_df['y'] < 620)
-            # # filtered_df = char_df.loc[condition1]
-            # filtered_df = pd.concat([char_df.loc[condition1], char_df.loc[condition2], char_df.loc[condition3]])
+            condition1 = (char_df['x'] > 852) & (char_df['y'] < 800) & (char_df['y'] > 650)
+            condition2 = (char_df['y'] > 250) & (char_df['y'] < 650)
+            condition3 = (char_df['x'] < 935) & (char_df['y'] < 250)
+            # filtered_df = char_df.loc[condition1]
+            filtered_df = pd.concat([char_df.loc[condition1], char_df.loc[condition2], char_df.loc[condition3]])
 
             print_with_line_number(f'输出文件为: {res_f} ', __file__)
             df_write_to_csv(filtered_df, res_f)

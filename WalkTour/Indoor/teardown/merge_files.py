@@ -66,11 +66,11 @@ def get_output_dir_csv(in_src_data):
 
 
 if __name__ == '__main__':
-    folder_path = r'E:\work\MR_Data\1月18号\20240118_源数据_clear\室内'
+    folder_path = r'E:\work\MR_Data\data_place\merge_finger'
     # 获取当前路径下的所有csv文件
-    # res_file_list = FindFile.get_cur_dir_all_csv(folder_path)
+    res_file_list = FindFile.get_cur_dir_all_csv(folder_path)
     # 获取output目录
-    res_file_list = get_output_dir_csv(folder_path)
+    # res_file_list = get_output_dir_csv(folder_path)
     # 获取sub目录
     # res_dir_list = get_path_sub_dir(folder_path)
     # res_file_list = []

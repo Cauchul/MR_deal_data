@@ -50,11 +50,11 @@ def get_output_dir_csv(in_src_data):
 
 # 设置pid要所有需要排序的文件一起设置
 if __name__ == '__main__':
-    folder_path = r'E:\work\MR_Data\data_place\merge_finger_水平纠偏'
+    folder_path = r'E:\work\MR_Data\1月18号\20180118_new_no_table\室内'
     # 获取当前路径下的所有csv文件
-    res_file_list = get_cur_dir_all_csv(folder_path)
+    # res_file_list = get_cur_dir_all_csv(folder_path)
     # 获取output目录下的所有的csv文件
-    # res_file_list = get_output_dir_csv(folder_path)
+    res_file_list = get_output_dir_csv(folder_path)
 
     print(res_file_list)
 

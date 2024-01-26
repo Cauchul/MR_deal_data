@@ -83,11 +83,11 @@ def set_config_info(in_config, in_data_type, in_test_area, in_section_name='Walk
     in_config.set(in_section_name, 'test_area', in_test_area)
 
 
-def set_WalkTour_config_file_info(in_folder_path, in_data_type):
+def set_WalkTour_config_file_info(in_folder_path, in_data_type, in_config_file=r'E:\work\demo\no_table_config.ini'):
     in_section_name = 'WalkTour'
     in_test_area = 'outdoor'
 
-    in_config = get_config_project()
+    in_config = get_config_project(in_config_file)
     # 获取所有的csv路径
     res_list = get_csv_path_list(in_folder_path)
 
@@ -98,16 +98,10 @@ def set_WalkTour_config_file_info(in_folder_path, in_data_type):
         res_csv_file_list = get_all_csv_file(i_path)
 
         for i_f in res_csv_file_list:
-            if 'coordinate_correction' in i_f:
+            if 'chart' in i_f:
                 in_config.set(in_section_name, 'zcy_chart_file', i_f)
                 in_test_area = 'indoor'
                 print_with_line_number(f'char文件： {i_f}', __file__)
-            elif 'table' in i_f:
-                in_config.set(in_section_name, '45g_table_file', i_f)
-                print_with_line_number(f'table文件： {i_f}', __file__)
-            elif 'chart' in i_f:
-                # in_config.set(in_section_name, '45g_table_file', i_f)
-                print_with_line_number(f'不写入config文件得chart文件： {i_f}', __file__)
             else:
                 in_config.set(in_section_name, '45g_test_log', i_f)
                 print_with_line_number(f'ue log 文件： {i_f}', __file__)
@@ -121,7 +115,7 @@ def set_WalkTour_config_file_info(in_folder_path, in_data_type):
 
 
 if __name__ == '__main__':
-    folder_path = r'E:\work\MR_Data\1月12号\下午测试(1)_new_0125\下午测试\2'
+    folder_path = r'E:\work\MR_Data\1月22号\20210122(1)_new_no_table\20210122\岳云伟\小米13'
 
     # 获取config
     # res_config = get_config_project()

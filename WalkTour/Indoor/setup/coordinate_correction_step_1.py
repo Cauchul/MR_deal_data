@@ -144,6 +144,7 @@ class CommonFunc:
             y_out[i] = y_list[i] + y_move
         return x_out, y_out
 
+
 def generate_PNG_image(in_png_file):
     plt.plot(x1, y1)  # 绘制折线图
     plt.plot(char_df['x'], char_df['y'])  # 绘制折线图
@@ -157,13 +158,14 @@ def generate_PNG_image(in_png_file):
 
 
 if __name__ == '__main__':
-    folder_path = r'E:\work\MR_Data\1月18号\20240118_源数据_clear\室内'
+    folder_path = r'E:\work\MR_Data\1月22号\20210122(1)_new_no_table\20210122\岳云伟\小米13'
 
     res_file_list = FindFile.find_files_with_string(folder_path, 'chart')
     res_file_list = [x for x in res_file_list if
                      'unzip' not in x and 'coordinate_correction' not in os.path.basename(x)]
 
-    res_file_list = [x for x in res_file_list if 'chart_clear' in os.path.basename(x)] if any('chart_clear' in os.path.basename(x) for x in res_file_list) else res_file_list
+    res_file_list = [x for x in res_file_list if 'chart_clear' in os.path.basename(x)] if any(
+        'chart_clear' in os.path.basename(x) for x in res_file_list) else res_file_list
 
     for i_f in res_file_list:
         print_with_line_number(f'当前处理文件：{i_f}', __file__)
