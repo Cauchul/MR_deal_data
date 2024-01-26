@@ -115,7 +115,7 @@ def set_WalkTour_config_file_info(in_folder_path, in_data_type, in_config_file=r
 
 
 if __name__ == '__main__':
-    folder_path = r'E:\work\MR_Data\1月22号\20210122(1)_new_no_table\20210122\岳云伟\小米13'
+    folder_path = r'E:\work\MR_Data\1月23号\20240123(1)_new_no_table\20240123\孙晨\小米13'
 
     # 获取config
     # res_config = get_config_project()

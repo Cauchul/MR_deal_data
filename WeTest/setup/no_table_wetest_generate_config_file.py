@@ -118,7 +118,7 @@ def set_WeTest_config_file_info(in_folder_path, in_data_type, in_config_file=r'E
 
 
 if __name__ == '__main__':
-    folder_path = r'E:\work\MR_Data\1月22号\20210122(1)_new_no_table\20210122\孙晨\RENO8\4G'
+    folder_path = r'E:\work\MR_Data\1月26号\20240126室外上午_new_no_table\上午\孙晨\RENO8'
 
     # 获取config
     # res_config = get_config_project()

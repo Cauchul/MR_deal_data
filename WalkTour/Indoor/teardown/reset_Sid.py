@@ -50,7 +50,7 @@ def get_output_dir_csv(in_src_data):
 
 # 设置pid要所有需要排序的文件一起设置
 if __name__ == '__main__':
-    folder_path = r'E:\work\MR_Data\1月18号\20180118_new_no_table\室内'
+    folder_path = r'E:\work\MR_Data\1月26号\20240126室外上午_new_no_table\上午\岳云伟\小米13'
     # 获取当前路径下的所有csv文件
     # res_file_list = get_cur_dir_all_csv(folder_path)
     # 获取output目录下的所有的csv文件

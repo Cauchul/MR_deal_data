@@ -158,7 +158,7 @@ def generate_PNG_image(in_png_file):
 
 
 if __name__ == '__main__':
-    folder_path = r'E:\work\MR_Data\1月22号\20210122(1)_new_no_table\20210122\岳云伟\小米13'
+    folder_path = r'E:\work\MR_Data\1月22号\20210122(1)_new_no_table\20210122\孙晨\小米12'
 
     res_file_list = FindFile.find_files_with_string(folder_path, 'chart')
     res_file_list = [x for x in res_file_list if

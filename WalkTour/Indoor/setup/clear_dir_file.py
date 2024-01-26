@@ -45,8 +45,8 @@ def clear_output_dir(in_data_path):
 
 
 if __name__ == '__main__':
-    data_path = r'E:\work\MR_Data\1月18号\20240118_源数据_clear\室内'
+    data_path = r'E:\work\MR_Data\1月26号\20240126室外上午_new_no_table\上午\岳云伟'
     # 删除output目录
-    clear_output_dir(data_path)
+    # clear_output_dir(data_path)
     # 删除目录下的所有含有某字符串的文件
-    # clear_file(data_path, 'WalkTour')
+    clear_file(data_path, 'WalkTour')

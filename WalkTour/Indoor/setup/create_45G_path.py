@@ -14,7 +14,7 @@ def create_dir(in_path, in_list):
         os.makedirs(path)
 
 
-def create_in_all_csv_dir(in_path):
+def create_in_all_csv_dir(in_path, in_dir_list):
     # 获取csv文件的路径
     res_csv_path_list = FindFile.get_csv_file_dir_list(in_path)
     # res_csv_path_list = get_data_path_by_char(folder_path)
@@ -22,10 +22,9 @@ def create_in_all_csv_dir(in_path):
     res_csv_path_list = [in_i_string for in_i_string in res_csv_path_list if
                          'output' not in in_i_string and 'unzip' not in in_i_string]
 
-    dir_list = ['4G', '5G']
     for i_dir in res_csv_path_list:
         print(i_dir)
-        create_dir(i_dir, dir_list)
+        create_dir(i_dir, in_dir_list)
 
 
 if __name__ == '__main__':
@@ -34,12 +33,16 @@ if __name__ == '__main__':
     # data_path = r'E:\work\MR_Data\1月16号\20240116(1)_new_no_table\20240116'
     # create_dir(data_path, dir_list)
 
-    folder_path = r'E:\work\MR_Data\1月22号\20210122(1)_new_no_table\20210122\岳云伟\小米13'
+    folder_path = r'E:\work\MR_Data\1月26号\20240126室外上午_new_no_table\上午\孙晨'
     # 在当前目录创建
-    dir_list = ['4G', '5G']
-    create_dir(folder_path, dir_list)
+    # dir_list = ['4G', '5G']
+    # create_dir(folder_path, dir_list)
+    # dir_list = ['1', '2', '3']
+    # create_dir(folder_path, dir_list)
     # 在所有的csv目录下创建
-    # create_in_all_csv_dir(folder_path)
+    # dir_list = ['4G', '5G']
+    dir_list = ['1', '2', '3']
+    create_in_all_csv_dir(folder_path, dir_list)
 
     # def create_in_all_csv_dir(in_path):
     #     # 获取csv文件的路径

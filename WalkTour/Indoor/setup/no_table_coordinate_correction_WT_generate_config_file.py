@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# 找到csv所在的目录
+# 生成配置文件，char文件使用 coordinate_correction 纠偏之后的 char数据
 import configparser
 import os
 
@@ -84,7 +84,7 @@ def set_config_info(in_config, in_data_type, in_test_area, in_section_name='Walk
 
 
 def set_WalkTour_config_file_info(in_folder_path, in_data_type, in_config_file=r'E:\work\demo\no_table_config.ini'):
-    in_section_name = 'WalkTourAndWeTest'
+    in_section_name = 'WalkTour'
     in_test_area = 'outdoor'
 
     in_config = get_config_project(in_config_file)
@@ -118,7 +118,7 @@ def set_WalkTour_config_file_info(in_folder_path, in_data_type, in_config_file=r
 
 
 if __name__ == '__main__':
-    folder_path = r'E:\work\MR_Data\1月22号\20210122(1)_new_no_table\20210122\孙晨'
+    folder_path = r'E:\work\MR_Data\1月26号\20240126室外上午_new_no_table\上午\孙晨'
 
     # 获取config
     # res_config = get_config_project()
