@@ -455,8 +455,8 @@ class WeTest:
         if 'f_longitude' not in log_df_5g.columns:
             log_df_5g = log_df_5g.rename(
                 columns={
-                    'Longitude': 'f_longitude',
-                    'Latitude': 'f_latitude',
+                    'startlocation_longitude': 'f_longitude',
+                    'startlocation_latitude': 'f_latitude',
                 })
 
         # 删除重复列
@@ -532,8 +532,8 @@ class WeTest:
         if 'f_longitude' not in log_df_4g.columns:
             log_df_4g = log_df_4g.rename(
                 columns={
-                    'Longitude': 'f_longitude',
-                    'Latitude': 'f_latitude',
+                    'startlocation_longitude': 'f_longitude',
+                    'startlocation_latitude': 'f_latitude',
                 })
 
         # 删除重复列
