@@ -39,6 +39,19 @@ def file_rename(in_file, in_cnt=2):
     return res_new_name
 
 
+# 给文件名添加后缀
+def file_del_suffix(in_file):
+    in_res_file_name, in_res_file_extension = os.path.splitext(in_file)
+    # print(in_res_file_name)
+    # 寻找最后一个下划线的索引
+    last_underscore_index = in_res_file_name.rfind('_')
+
+    # 去除字符串中最后一个下划线及其后的内容
+    in_tmp_file_name = in_res_file_name[:last_underscore_index]
+    os.rename(in_file, in_tmp_file_name)
+    # return in_tmp_file_name
+
+
 # 设置pid要所有需要排序的文件一起设置
 if __name__ == '__main__':
     folder_path = r'E:\work\MR_Data\1月26号\20240126室外上午_new_no_table\上午\岳云伟\MATE40'
@@ -47,15 +60,15 @@ if __name__ == '__main__':
     # 获取output目录下的所有的csv文件
     # res_file_list = get_output_dir_csv(folder_path)
 
-    # print(res_file_list)
-
     for i_f in res_file_list:
         print(i_f)
-
-        res_list = Common.split_path_get_list(os.path.dirname(i_f))
-        print(res_list)
-        # 生成新名称，重新命名
-        res_new_name = file_add_specified_suffix(i_f, res_list[-1])
+        # 通过路径list，生成新名称，重新命名
+        # res_list = Common.split_path_get_list(os.path.dirname(i_f))
+        # print(res_list)
+        # res_new_name = file_add_specified_suffix(i_f, res_list[-1])
+        # 自定义后缀名
+        res_new_name = file_add_specified_suffix(i_f, 'Mate40')
         os.rename(i_f, res_new_name)
 
-    # reset_sid_value(res_file_list)
+        # 删除后缀
+        # file_del_suffix(i_f)
