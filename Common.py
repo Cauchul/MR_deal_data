@@ -329,7 +329,7 @@ def find_directory(in_directory, in_target_name):
 
 
 def df_write_to_csv(w_df, w_file):
-    w_df.to_csv(w_file, index=False)
+    w_df.to_csv(w_file, index=False, encoding='UTF-8')
 
 
 def df_write_to_xlsx(w_df, w_file):

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 
-from Common import FindFile, find_output_dir, Common, clear_merge_path, clear_path
+from Common import FindFile, find_output_dir, Common, clear_merge_path, clear_path, print_with_line_number
 
 
 # 删除目录下指定文件
@@ -44,9 +44,27 @@ def clear_output_dir(in_data_path):
         clear_path(i_dir)
 
 
+def just_clear(in_file_list):
+    for in_i_f in in_file_list:
+        print(in_i_f)
+        os.remove(in_i_f)
+
+
 if __name__ == '__main__':
-    data_path = r'E:\work\MR_Data\1月26号\20240126室外上午_new_no_table\上午\岳云伟'
+    data_path = r'E:\work\MR_Data\data_place\outdoor\小米13'
     # 删除output目录
     # clear_output_dir(data_path)
     # 删除目录下的所有含有某字符串的文件
-    clear_file(data_path, 'WalkTour')
+    # clear_file(data_path, 'WalkTour')
+
+    # 删除当前路径下的uemr
+    res_file_list = FindFile.get_cur_dir_all_csv(data_path)
+    res_file_list = [x for x in res_file_list if 'uemr' in os.path.basename(x)]
+
+    for i_f in res_file_list:
+        if 'finger' not in os.path.basename(i_f):
+            print_with_line_number(f'删除文件：{i_f}', __file__)
+            os.remove(i_f)
+
+    # just_clear(res_file_list)
+

@@ -33,16 +33,16 @@ if __name__ == '__main__':
     # data_path = r'E:\work\MR_Data\1月16号\20240116(1)_new_no_table\20240116'
     # create_dir(data_path, dir_list)
 
-    folder_path = r'E:\work\MR_Data\1月26号\20240126室外上午_new_no_table\上午\孙晨'
+    folder_path = r'E:\work\MR_Data\1月18号\20180118_new_no_table\室外'
     # 在当前目录创建
-    # dir_list = ['4G', '5G']
-    # create_dir(folder_path, dir_list)
-    # dir_list = ['1', '2', '3']
-    # create_dir(folder_path, dir_list)
+    dir_list = ['4G', '5G']
+    create_dir(folder_path, dir_list)
+    dir_list = ['1', '2', '3', '4']
+    create_dir(folder_path, dir_list)
     # 在所有的csv目录下创建
     # dir_list = ['4G', '5G']
-    dir_list = ['1', '2', '3']
-    create_in_all_csv_dir(folder_path, dir_list)
+    # dir_list = ['1', '2', '3']
+    # create_in_all_csv_dir(folder_path, dir_list)
 
     # def create_in_all_csv_dir(in_path):
     #     # 获取csv文件的路径
