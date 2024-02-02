@@ -18,5 +18,5 @@ def create_dir(in_path, in_num):
 
 if __name__ == '__main__':
     # 在当前目录下创建三个目录
-    data_path = r'E:\work\MR_Data\1月15号\20240115数据_new_changge\5G\正纵'
+    data_path = r'E:\work\MR_Data\1月23号\20240123(1)_new_no_table\20240123\岳云伟\IQOO7'
     create_dir(data_path, 3)

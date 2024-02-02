@@ -9,8 +9,8 @@ from Common import find_output_dir, get_file_list_by_char, print_with_line_numbe
 def file_add_specified_suffix(in_file, *in_suffix):
     in_res_file_name, in_res_file_extension = os.path.splitext(in_file)
     # print('in_res_file_name: ', in_res_file_name)
-    if f'_{in_suffix[0]}' not in in_res_file_name:
-        suffix_str = "_".join(in_suffix)
+    suffix_str = "_".join(in_suffix)
+    if suffix_str not in os.path.basename(in_res_file_name):
         print_with_line_number(f'文件添加后缀为: {suffix_str}', __file__)
         in_tmp_file_name = in_res_file_name + f'_{suffix_str}' + in_res_file_extension
     else:
@@ -22,7 +22,18 @@ def file_rename(in_file):
     # copy_output_file_to_dir()
     res_list = Common.split_path_get_list(os.path.dirname(in_file))
     print_with_line_number(f'返回的文件路径list：{res_list}', __file__)
-    res_new_name = file_add_specified_suffix(in_file, res_list[-3], res_list[-2])
+    res_new_name = file_add_specified_suffix(in_file, res_list[-4], res_list[-2])
+    print_with_line_number(f'原文件名：{in_file}', __file__)
+    print_with_line_number(f'拷贝文件名：{res_new_name}', __file__)
+    os.rename(in_file, res_new_name)
+    return res_new_name
+
+
+def merge_file_rename(in_file):
+    # copy_output_file_to_dir()
+    res_list = Common.split_path_get_list(os.path.dirname(in_file))
+    print_with_line_number(f'返回的文件路径list：{res_list}', __file__)
+    res_new_name = file_add_specified_suffix(in_file, res_list[-1])
     print_with_line_number(f'原文件名：{in_file}', __file__)
     print_with_line_number(f'拷贝文件名：{res_new_name}', __file__)
     os.rename(in_file, res_new_name)
@@ -46,6 +57,8 @@ def copy_output_file_to_dir(in_char='4G'):
             print_with_line_number(f'当前处理文件: {i_f}', __file__)
             # 文件重命名
             i_f = file_rename(i_f)
+
+            print('i_fi_f: ', i_f)
             # 根据新文件名拷贝文件
             copy_file(i_f, output_path)
             print_with_line_number(f'拷贝文件: {i_f} 输出目录：{output_path}', __file__)
@@ -58,7 +71,7 @@ def copy_merge_file_to_dir(in_src_path):
         # print('++' * 50)
         print_with_line_number(f'当前处理文件: {i_f}', __file__)
         # 文件重命名
-        # i_f = file_rename(i_f)
+        i_f = merge_file_rename(i_f)
         # 根据新文件名拷贝文件
         copy_file(i_f, output_path)
         print_with_line_number(f'拷贝文件: {i_f} 输出目录：{output_path}', __file__)
@@ -66,9 +79,9 @@ def copy_merge_file_to_dir(in_src_path):
 
 # 拷贝output目录下的文件
 if __name__ == '__main__':
-    data_path = r'E:\work\MR_Data\1月26号\20240126室外上午_new_no_table\上午\岳云伟\小米13'
+    data_path = r'E:\work\MR_Data\1月24号\20240124_new_no_table\20240124'
     output_path = data_path
-    copy_output_file_to_dir('4G')
-    copy_output_file_to_dir('5G')
+    copy_output_file_to_dir('Beam')
+    # copy_output_file_to_dir('5G')
     # 拷贝merge文件
-    # copy_merge_file_to_dir(data_path)
+    copy_merge_file_to_dir(data_path)

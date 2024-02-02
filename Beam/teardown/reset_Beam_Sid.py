@@ -45,22 +45,27 @@ def get_output_dir_csv(in_src_data):
 
     # 只获取finger文件
 
-    for i in tmp_res_list:
-        print(i)
+    # for i in tmp_res_list:
+    #     print(i)
 
-    tmp_res_list = [x for x in tmp_res_list if 'Beam' in os.path.basename(x)]
+    tmp_res_list = [x for x in tmp_res_list if 'Beam' in os.path.basename(x) and 'finger' in os.path.basename(x)]
     return tmp_res_list
 
 
 # 设置pid要所有需要排序的文件一起设置
 if __name__ == '__main__':
-    folder_path = r'E:\work\MR_Data\1月16号\20240116_new_no_table\20240116\5G'
+    folder_path = r'E:\work\MR_Data\1月24号\20240124_new_no_table\20240124\岳云伟\小米13'
     # 获取当前路径下的所有csv文件
     # res_file_list = get_cur_dir_all_csv(folder_path)
     # 获取output目录下的所有的csv文件
     res_file_list = get_output_dir_csv(folder_path)
 
-    print(res_file_list)
+    res_file_list = [i_f for i_f in res_file_list if 'Beam' in os.path.basename(i_f)]
+
+    for i in res_file_list:
+        print('i: ', i)
+
+    # print(res_file_list)
 
     LTE_file_list = [i_f for i_f in res_file_list if '4G' in os.path.basename(i_f)]
     NR_file_list = [i_f for i_f in res_file_list if '5G' in os.path.basename(i_f)]

@@ -9,6 +9,9 @@ from Common import print_with_line_number, find_output_dir, get_data_path_by_cha
 def delete_empty_value_column(in_csv_file_list):
     # 读取CSV文件，指定第一行为标题行
     for i_f in in_csv_file_list:
+        if 'Beam' not in os.path.basename(i_f):
+            continue
+
         df = pd.read_csv(os.path.join(src_data, i_f), header=0)
 
         # 删除第二列（下标为1）中为空的行，保留其他所有列
@@ -21,7 +24,7 @@ def delete_empty_value_column(in_csv_file_list):
                 # 获取 f_server_sid 列的值
                 server_sid = int(row['f_server_sid'])
 
-                print('server_sid: ', server_sid)
+                # print('server_sid: ', server_sid)
 
                 # 检查 f_sid_1_rsrp 和 f_sid_1_rsrq 是否为空
                 if pd.isna(row[f'f_sid_{server_sid}_rsrp']) or pd.isna(row[f'f_sid_{server_sid}_rsrq']):
@@ -64,7 +67,7 @@ def get_output_dir_csv(in_src_data):
 
 
 if __name__ == '__main__':
-    src_data = r'E:\work\MR_Data\1月16号\20240116_new_no_table\20240116\5G'
+    src_data = r'E:\work\MR_Data\1月24号\20240124_new_no_table\20240124'
     # 获取当前目录下的所有的csv文件
     # res_file_list = get_cur_dir_all_csv(src_data)
     # 获取output目录下的所有的csv文件

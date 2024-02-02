@@ -120,7 +120,7 @@ def set_WalkTour_config_file_info(in_folder_path, in_data_type, in_config_file=r
 
 
 if __name__ == '__main__':
-    folder_path = r'E:\work\MR_Data\1月16号\20240116_new_no_table\20240116\5G'
+    folder_path = r'E:\work\MR_Data\1月26号\20240126室外上午_new_no_table\上午\岳云伟\S22\5G'
 
     # 获取config
     # res_config = get_config_project()

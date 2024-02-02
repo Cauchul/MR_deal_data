@@ -66,11 +66,16 @@ def get_output_dir_csv(in_src_data):
 
 
 if __name__ == '__main__':
-    folder_path = r'E:\work\MR_Data\1月16号\20240116_new_no_table\20240116\5G'
+    folder_path = r'E:\work\MR_Data\1月24号\20240124_new_no_table\20240124\岳云伟\小米13'
     # 获取当前路径下的所有csv文件
-    res_file_list = FindFile.get_cur_dir_all_csv(folder_path)
+    # res_file_list = FindFile.get_cur_dir_all_csv(folder_path)
     # 获取output目录
-    # res_file_list = get_output_dir_csv(folder_path)
+    res_file_list = get_output_dir_csv(folder_path)
+
+    res_file_list = [i_f for i_f in res_file_list if 'Beam' in os.path.basename(i_f)]
+
+    for i in res_file_list:
+        print(i)
     # 获取sub目录
     # res_dir_list = get_path_sub_dir(folder_path)
     # res_file_list = []

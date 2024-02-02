@@ -21,7 +21,7 @@ def clean_beam(in_beam_csv):
 
 if __name__ == '__main__':
     # 找到目录下所有的Beam csv文件
-    folder_path = r'E:\work\MR_Data\1月16号\20240116_new_no_table\20240116\5G'
+    folder_path = r'E:\work\MR_Data\1月26号\20240126室外上午_new_no_table\上午\岳云伟\S22\5G'
     # res_list = get_data_path_by_char(folder_path, '')
     res_list = FindFile.find_files_with_string(folder_path, 'Beam.csv')
     for i_f in res_list:

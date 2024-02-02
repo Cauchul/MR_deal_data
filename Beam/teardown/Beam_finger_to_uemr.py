@@ -64,7 +64,7 @@ def get_output_dir_csv(in_src_data):
 
 
 if __name__ == '__main__':
-    folder_path = r'E:\work\MR_Data\1月12号\下午测试(1)_new_no_table\下午测试'
+    folder_path = r'E:\work\MR_Data\1月24号\20240124_new_no_table\20240124'
     # 获取当前路径下的所有csv文件
     # res_file_list = get_cur_dir_all_csv(folder_path)
     # 获取output目录下的finger
@@ -72,7 +72,8 @@ if __name__ == '__main__':
     # print(res_file_list)
 
     for i_f in res_file_list:
-        print(i_f)
-        finger_to_UEMR_data(i_f)
+        if 'Beam' in os.path.basename(i_f):
+            print(i_f)
+            finger_to_UEMR_data(i_f)
         # UEMR_to_finger_data(i_f)
-        print('---' * 50)
+            print('---' * 50)

@@ -56,10 +56,15 @@ def get_output_dir_csv(in_src_data):
 
 
 if __name__ == '__main__':
-    src_data = r'E:\work\MR_Data\1月16号\20240116_new_no_table\20240116\5G'
+    src_data = r'E:\work\MR_Data\1月24号\20240124_new_no_table\20240124\岳云伟\小米13'
     # 获取当前目录
     # res_file_list = get_cur_dir_all_csv(src_data)
     # 获取output目录
     res_file_list = get_output_dir_csv(src_data)
-    print(res_file_list)
+    res_file_list = [i_f for i_f in res_file_list if 'Beam' in os.path.basename(i_f)]
+
+    for i in res_file_list:
+        print(i)
+
+    # print(res_file_list)
     set_brand(res_file_list)
