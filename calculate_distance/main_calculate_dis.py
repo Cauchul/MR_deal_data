@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
+import os
+
 import pandas as pd
 
-from Common import df_write_to_csv
-from calculate_distance.calcu_dis_demo import calculate_dis_by_df
+from Common import df_write_to_csv, check_path
+from calculate_distance.get_max_dis import in_df_calculate_dis
 
 
 def group_csv_data(in_csv_file, in_group_char):
@@ -18,7 +20,7 @@ def group_csv_data(in_csv_file, in_group_char):
         # 提取分组后的df中的经纬度值
         in_df_data = i_group_data[['f_longitude', 'f_latitude']].values.tolist()
         print('f_time: ', i_group_name)
-        in_res_dis = calculate_dis_by_df(in_df_data)
+        in_res_dis = in_df_calculate_dis(in_df_data)
         print('max_dis: ', in_res_dis)
         print('--' * 15)
         # res_list.append(in_res_dis)
@@ -27,7 +29,14 @@ def group_csv_data(in_csv_file, in_group_char):
 
     in_df['max_distance'] = in_df['f_time'].map(res_dict)
 
-    new_csv_file = in_csv_file.replace(".csv", "_add_nax_dis.csv")
+    # 输出到当前目录
+    # new_csv_file = in_csv_file.replace(".csv", "_add_nax_dis.csv")
+
+    # 输出到output目录
+    output_dir = os.path.join(os.path.dirname(in_csv_file), "max_dis_output")
+    check_path(output_dir)
+    tmp_csv_file = os.path.join(output_dir, os.path.basename(in_csv_file))
+    new_csv_file = tmp_csv_file.replace(".csv", "_add_nax_dis.csv")
 
     df_write_to_csv(in_df, new_csv_file)
 
@@ -54,8 +63,21 @@ def group_csv_data(in_csv_file, in_group_char):
 #
 # print(res_list)
 
+def get_cur_dir_all_csv(in_src_data):
+    tmp_csv_files = [os.path.join(in_src_data, file) for file in os.listdir(in_src_data) if
+                     file.endswith('.csv') and 'finger' in file]
+    return tmp_csv_files
+
+
 if __name__ == '__main__':
     # res_list = []
-    csv_file = r'E:\work\MR_Data\data_place\demo\test.csv'
+    folder_path = r'E:\work\MR_Data\data_place\demo'
+    # 获取当前路径下的所有csv文件
+    res_file_list = get_cur_dir_all_csv(folder_path)
 
-    group_csv_data(csv_file, 'f_time')
+    print(res_file_list)
+
+    # csv_file = r'E:\work\MR_Data\data_place\demo\test.csv'
+
+    for i_file in res_file_list:
+        group_csv_data(i_file, 'f_time')

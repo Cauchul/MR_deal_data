@@ -4,10 +4,10 @@ import pandas as pd
 from geopy.distance import geodesic
 from itertools import combinations
 
-from calculate_distance.calcu_dis_by_lat_lon import calculate_distance
+from calculate_distance.calcu_two_coord_dis import calculate_distance
 
 
-def calculate_dis_by_df(in_df_data):
+def in_df_calculate_dis(in_df_data):
     # tmp_dis_dict = {}
     max_dis = 0
     for pair in combinations(in_df_data, 2):
@@ -30,5 +30,5 @@ if __name__ == '__main__':
 
     print(df['f_time'][0])
 
-    res = calculate_dis_by_df(merged_data)
+    res = in_df_calculate_dis(merged_data)
     print(res)
