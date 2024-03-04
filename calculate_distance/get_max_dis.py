@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 import pandas as pd
 
-from geopy.distance import geodesic
 from itertools import combinations
-
 from calculate_distance.calcu_two_coord_dis import calculate_distance
 
 

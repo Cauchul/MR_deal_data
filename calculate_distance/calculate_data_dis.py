@@ -5,7 +5,15 @@ from itertools import combinations
 import pandas as pd
 from geopy.distance import geodesic
 
-from Common import df_write_to_csv, check_path
+
+# 检查路径，如果不存在则创建
+def check_path(in_path):
+    if not os.path.exists(in_path):
+        os.makedirs(in_path, exist_ok=True)
+
+
+def df_write_to_csv(w_df, w_file):
+    w_df.to_csv(w_file, index=False, encoding='UTF-8')
 
 
 def calculate_distance(in_lat1, in_lon1, in_lat2, in_lon2):

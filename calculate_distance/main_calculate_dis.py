@@ -41,28 +41,6 @@ def group_csv_data(in_csv_file, in_group_char):
     df_write_to_csv(in_df, new_csv_file)
 
 
-# # 读取 CSV 文件
-# df = pd.read_csv(r'E:\work\MR_Data\data_place\demo\5G_HaiDian_indoor_WT_LOG_DT_UE_0124_finger_Mate_40_5G_3.csv')
-#
-# # 按照 'Category' 列的值进行分组
-# grouped = df.groupby('f_time')
-#
-#
-# res_list = []
-#
-# for group_name, group_data in grouped:
-#     # print(f"Group {group_name}:")
-#     # print(group_data.columns)
-#     # df_write_to_csv(group_data, r'E:\work\MR_Data\data_place\demo\out.csv')
-#
-#     # print('===== :', group_data)
-#     df_data = group_data[['f_longitude', 'f_latitude']].values.tolist()
-#     res_dis = calculate_dis_by_df(df_data)
-#     # print(res_dis)
-#     res_list.append(res_dis)
-#
-# print(res_list)
-
 def get_cur_dir_all_csv(in_src_data):
     tmp_csv_files = [os.path.join(in_src_data, file) for file in os.listdir(in_src_data) if
                      file.endswith('.csv') and 'finger' in file]
