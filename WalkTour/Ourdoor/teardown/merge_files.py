@@ -66,11 +66,11 @@ def get_output_dir_csv(in_src_data):
 
 
 if __name__ == '__main__':
-    folder_path = r'E:\work\MR_Data\1月18号\20240118_源数据\室外'
+    folder_path = r'E:\work\MR_Data\data_place\merge'
     # 获取当前路径下的所有csv文件
-    # res_file_list = FindFile.get_cur_dir_all_csv(folder_path)
+    res_file_list = FindFile.get_cur_dir_all_csv(folder_path)
     # 获取output目录
-    res_file_list = get_output_dir_csv(folder_path)
+    # res_file_list = get_output_dir_csv(folder_path)
     # 获取sub目录
     # res_dir_list = get_path_sub_dir(folder_path)
     # res_file_list = []
@@ -90,5 +90,7 @@ if __name__ == '__main__':
     print(LTE_file_list)
     print(NR_file_list)
     # 把list中的文件全部合并
-    merge_all_data(LTE_file_list)
-    merge_all_data(NR_file_list)
+    if LTE_file_list:
+        merge_all_data(LTE_file_list)
+    if NR_file_list:
+        merge_all_data(NR_file_list)
