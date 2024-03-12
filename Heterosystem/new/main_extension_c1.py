@@ -20,7 +20,7 @@ def data_line_extension(in_df):
     res_df.loc[0] = in_df.loc[0]
 
     while True:
-        if loop_value > in_df['f_time'].iloc[-1]:
+        if loop_value >= in_df['f_time'].iloc[-1]:
             break
 
         loop_value += 1

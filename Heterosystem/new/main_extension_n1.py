@@ -14,13 +14,13 @@ def data_column_extension(in_df, in_group_flag, in_columns_list):
         # 遍历每一行数据
         for i_idx, i_data in i_group.iterrows():
             if cnt > 0:
-                print('i_data', i_data)
+                # print('i_data', i_data)
                 for i_in_c in in_columns_list:
                     new_c = f'{i_in_c}{cnt}'
                     in_df.loc[i_group.index[0], new_c] = i_data[i_in_c]
                 in_df.drop(i_idx, inplace=True)
             cnt += 1
-        print('--' * 50)
+        # print('--' * 50)
 
     return in_df
 
@@ -37,19 +37,21 @@ def data_line_extension(in_df, in_columns_flag):
 
     while True:
         if start >= in_df[in_columns_flag].iloc[-1]:
-            print('start', start)
+            # print('start', start)
             break
 
         cn_index += 1
         start += 1
 
         if start in in_df[in_columns_flag].values:
+            print_with_line_number(f'{start} 在数据中', __file__)
+            print('---' * 50)
             inter_circ_index += 1
 
         new_df.loc[cn_index] = in_df.iloc[inter_circ_index]
         new_df.loc[cn_index, in_columns_flag] = start
 
-    print('--' * 50)
+    # print('--' * 50)
     return new_df
 
 
@@ -114,6 +116,9 @@ def main(in_data_file):
 
     # 标准化输出
     df = stand_df(df)
+
+    # 删除列
+    df = df.drop(columns='UE Time')
 
     out_file = in_data_file.replace('.csv', '_extension_final_result.csv')
     print_with_line_number(f'输出文件：{out_file}', __file__)
