@@ -22,7 +22,7 @@ def data_column_extension(in_df, in_group_flag, in_columns_list):
                     new_c = f'{i_in_c}{cnt}'
                     # in_df.loc[i_group.index[0], new_c] = i_data[i_in_c]
                     new_data[new_c] = i_data[i_in_c]
-                # in_df.drop(i_idx, inplace=True)
+                in_df.drop(i_idx, inplace=True)
             cnt += 1
         index_list.append(i_group.index[0])
         data_list.append(new_data)
@@ -135,5 +135,5 @@ def main(in_data_file):
 
 
 if __name__ == '__main__':
-    data_file = r'D:\MrData\3月5日\5G\NR_MR_Detail_20240315101021.csv'
+    data_file = r'D:\MrData\3月5日\5G\20240315测试\xiaomi_13\NR_MR_Detail_20240315135413.csv'
     main(data_file)

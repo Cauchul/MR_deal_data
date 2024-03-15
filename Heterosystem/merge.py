@@ -14,7 +14,7 @@ print(f'异系统数据文件： {table_file}')
 finger_df = read_csv_get_df(finger_file)
 table_df = read_csv_get_df(table_file)
 
-tmp_merger_df = pd.merge(finger_df, table_df, left_on="f_time", right_on="Seconds", how='left')
+tmp_merger_df = pd.merge(finger_df, table_df, left_on="f_time", right_on="f_time", how='left')
 # tmp_merger_df = pd.merge(finger_df, table_df, how='left')
 
 out_file = finger_file.replace('.csv', '_hetero_sys.csv')
