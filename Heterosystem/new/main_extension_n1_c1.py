@@ -9,7 +9,10 @@ from Common import print_with_line_number, df_write_to_csv
 
 def data_column_extension(in_df, in_group_flag, in_columns_list):
     # 按照列'A'的值进行分组
+    data_list = []
+    index_list = []
     for i_c, i_group in in_df.groupby(in_group_flag):
+        new_data = {}
         cnt = 0
         # 遍历每一行数据
         for i_idx, i_data in i_group.iterrows():
@@ -17,10 +20,14 @@ def data_column_extension(in_df, in_group_flag, in_columns_list):
                 # print('i_data', i_data)
                 for i_in_c in in_columns_list:
                     new_c = f'{i_in_c}{cnt}'
-                    in_df.loc[i_group.index[0], new_c] = i_data[i_in_c]
-                in_df.drop(i_idx, inplace=True)
+                    # in_df.loc[i_group.index[0], new_c] = i_data[i_in_c]
+                    new_data[new_c] = i_data[i_in_c]
+                # in_df.drop(i_idx, inplace=True)
             cnt += 1
+        index_list.append(i_group.index[0])
+        data_list.append(new_data)
         # print('--' * 50)
+    in_df = pd.merge(in_df, pd.DataFrame(data_list, index=index_list), left_index=True, right_index=True)
 
     return in_df
 
