@@ -51,7 +51,7 @@ def get_output_dir_csv(in_src_data):
 
 
 if __name__ == '__main__':
-    folder_path = r'E:\work\MrData\data_place\out\xiaomi_13'
+    folder_path = r'E:\work\MrData\data_place\merge\0315_merge_add_5g\mate40\merge123'
     # 获取当前路径下的所有csv文件
     res_file_list = FindFile.get_cur_dir_all_csv(folder_path)
     # 获取output目录

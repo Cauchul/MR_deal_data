@@ -64,11 +64,26 @@ def copy_merge_file_to_dir(in_src_path):
         print_with_line_number(f'拷贝文件: {i_f} 输出目录：{output_path}', __file__)
 
 
+def copy_cur_dir_file(in_path, in_char):
+    for in_res_folder_name, in_res_sub_folder, in_res_file_name in os.walk(in_path):
+        if in_res_file_name:
+            # print('in_res_file_name ', in_res_file_name)
+            # print('in_res_folder_name ', in_res_folder_name)
+            # print('---' * 50)
+            for i_f in in_res_file_name:
+                if in_char in i_f:
+                    print('当前拷贝文件： ', os.path.join(in_res_folder_name, i_f),)
+                    copy_file(os.path.join(in_res_folder_name, i_f), output_path)
+
+
 # 拷贝output目录下的文件
 if __name__ == '__main__':
-    data_path = r'E:\work\MrData\data_place\merge\0315'
+    data_path = r'E:\work\MrData\data_place\merge\0315_merge_add_5g\xiaomi_13'
     output_path = data_path
-    # copy_output_file_to_dir('4G')
-    copy_output_file_to_dir('hetero_system_merge')
+    # 拷贝output目录下的
+    # copy_output_file_to_dir('5G')
+    # copy_output_file_to_dir('hetero_sys')
+    # 拷贝当前目录下的
+    copy_cur_dir_file(data_path, 'hetero_sys_merge')
     # 拷贝merge文件
     # copy_merge_file_to_dir(data_path)

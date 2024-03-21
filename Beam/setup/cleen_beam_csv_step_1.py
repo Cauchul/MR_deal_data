@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
+
+# 清楚数据最后一行时间不对的数据
+
 import pandas as pd
 
 from Common import read_csv_get_df, df_write_to_csv, get_data_path_by_char, FindFile
-
-data_file = r'E:\work\MR_Data\new_format_data\小米13-1-5G--IN20240112-141903-FTPD(1)_0129091830.csv'
 
 
 def clean_beam(in_beam_csv):
@@ -19,12 +20,17 @@ def clean_beam(in_beam_csv):
     df_write_to_csv(in_res_df, in_beam_csv)
 
 
-if __name__ == '__main__':
-    # 找到目录下所有的Beam csv文件
-    folder_path = r'E:\work\MR_Data\1月26号\20240126室外上午_new_no_table\上午\岳云伟\S22\5G'
-    # res_list = get_data_path_by_char(folder_path, '')
-    res_list = FindFile.find_files_with_string(folder_path, 'Beam.csv')
+def clean_up_mult_files(in_folder_path):
+    res_list = FindFile.find_files_with_string(in_folder_path, 'Beam.csv')
     for i_f in res_list:
         print(i_f)
         clean_beam(i_f)
 
+
+if __name__ == '__main__':
+    # 找到目录下所有的Beam csv文件
+    # folder_path = r'D:\MrData\3月4号\20240304'
+    # clean_up_mult_files(folder_path)
+
+    data_file = r'D:\MrData\3月15日\5G\20240315_Beam\xiaomi_13\小米13-5G--IN20240315-101344-Ping(1)_0318105044.csv'
+    clean_beam(data_file)

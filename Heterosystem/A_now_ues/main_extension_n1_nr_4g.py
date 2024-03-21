@@ -119,7 +119,7 @@ def main(in_data_file):
     # 列拓展
     df = data_column_extension(df, 'f_time', columns_list)
 
-    # 行拓展
+    # 列拓展
     df = data_line_extension(df, 'f_time')
 
     # 标准化输出
@@ -128,12 +128,12 @@ def main(in_data_file):
     # 删除列
     df = df.drop(columns='UE Time')
 
-    out_file = in_data_file.replace('.csv', '_extension_final_result.csv')
+    out_file = in_data_file.replace('.csv', '_extension_final_result_4G.csv')
     print_with_line_number(f'输出文件：{out_file}', __file__)
     # 数据输出
     df_write_to_csv(df, out_file)
 
 
 if __name__ == '__main__':
-    data_file = r'D:\MrData\3月5日\5G\20240315测试\xiaomi_13\NR_MR_Detail_20240315135413.csv'
+    data_file = r'D:\MrData\3月15日\demo\NR_MR_Detail_20240315134928.csv'
     main(data_file)
